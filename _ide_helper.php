@@ -1,7 +1,7 @@
 <?php
 /**
  * A helper file for Laravel 5, to provide autocomplete information to your IDE
- * Generated for Laravel 5.2.13 on 2016-02-02.
+ * Generated for Laravel 5.2.14 on 2016-02-05.
  *
  * @author Barry vd. Heuvel <barryvdh@gmail.com>
  * @see https://github.com/barryvdh/laravel-ide-helper
@@ -1237,6 +1237,27 @@ namespace {
         }
         
         /**
+         * Get the user resolver callback.
+         *
+         * @return \Closure 
+         * @static 
+         */
+        public static function userResolver(){
+            return \Illuminate\Auth\AuthManager::userResolver();
+        }
+        
+        /**
+         * Set the callback to be used to resolve users.
+         *
+         * @param \Closure $userResolver
+         * @return $this 
+         * @static 
+         */
+        public static function resolveUsersUsing($userResolver){
+            return \Illuminate\Auth\AuthManager::resolveUsersUsing($userResolver);
+        }
+        
+        /**
          * Register a custom driver creator Closure.
          *
          * @param string $driver
@@ -1270,6 +1291,317 @@ namespace {
          */
         public static function createUserProvider($provider){
             return \Illuminate\Auth\AuthManager::createUserProvider($provider);
+        }
+        
+        /**
+         * Get the currently authenticated user.
+         *
+         * @return \App\User|null 
+         * @static 
+         */
+        public static function user(){
+            return \Illuminate\Auth\SessionGuard::user();
+        }
+        
+        /**
+         * Get the ID for the currently authenticated user.
+         *
+         * @return int|null 
+         * @static 
+         */
+        public static function id(){
+            return \Illuminate\Auth\SessionGuard::id();
+        }
+        
+        /**
+         * Log a user into the application without sessions or cookies.
+         *
+         * @param array $credentials
+         * @return bool 
+         * @static 
+         */
+        public static function once($credentials = array()){
+            return \Illuminate\Auth\SessionGuard::once($credentials);
+        }
+        
+        /**
+         * Validate a user's credentials.
+         *
+         * @param array $credentials
+         * @return bool 
+         * @static 
+         */
+        public static function validate($credentials = array()){
+            return \Illuminate\Auth\SessionGuard::validate($credentials);
+        }
+        
+        /**
+         * Attempt to authenticate using HTTP Basic Auth.
+         *
+         * @param string $field
+         * @param array $extraConditions
+         * @return \Symfony\Component\HttpFoundation\Response|null 
+         * @static 
+         */
+        public static function basic($field = 'email', $extraConditions = array()){
+            return \Illuminate\Auth\SessionGuard::basic($field, $extraConditions);
+        }
+        
+        /**
+         * Perform a stateless HTTP Basic login attempt.
+         *
+         * @param string $field
+         * @param array $extraConditions
+         * @return \Symfony\Component\HttpFoundation\Response|null 
+         * @static 
+         */
+        public static function onceBasic($field = 'email', $extraConditions = array()){
+            return \Illuminate\Auth\SessionGuard::onceBasic($field, $extraConditions);
+        }
+        
+        /**
+         * Attempt to authenticate a user using the given credentials.
+         *
+         * @param array $credentials
+         * @param bool $remember
+         * @param bool $login
+         * @return bool 
+         * @static 
+         */
+        public static function attempt($credentials = array(), $remember = false, $login = true){
+            return \Illuminate\Auth\SessionGuard::attempt($credentials, $remember, $login);
+        }
+        
+        /**
+         * Register an authentication attempt event listener.
+         *
+         * @param mixed $callback
+         * @return void 
+         * @static 
+         */
+        public static function attempting($callback){
+            \Illuminate\Auth\SessionGuard::attempting($callback);
+        }
+        
+        /**
+         * Log a user into the application.
+         *
+         * @param \Illuminate\Contracts\Auth\Authenticatable $user
+         * @param bool $remember
+         * @return void 
+         * @static 
+         */
+        public static function login($user, $remember = false){
+            \Illuminate\Auth\SessionGuard::login($user, $remember);
+        }
+        
+        /**
+         * Log the given user ID into the application.
+         *
+         * @param mixed $id
+         * @param bool $remember
+         * @return \App\User 
+         * @static 
+         */
+        public static function loginUsingId($id, $remember = false){
+            return \Illuminate\Auth\SessionGuard::loginUsingId($id, $remember);
+        }
+        
+        /**
+         * Log the given user ID into the application without sessions or cookies.
+         *
+         * @param mixed $id
+         * @return bool 
+         * @static 
+         */
+        public static function onceUsingId($id){
+            return \Illuminate\Auth\SessionGuard::onceUsingId($id);
+        }
+        
+        /**
+         * Log the user out of the application.
+         *
+         * @return void 
+         * @static 
+         */
+        public static function logout(){
+            \Illuminate\Auth\SessionGuard::logout();
+        }
+        
+        /**
+         * Get the cookie creator instance used by the guard.
+         *
+         * @return \Illuminate\Contracts\Cookie\QueueingFactory 
+         * @throws \RuntimeException
+         * @static 
+         */
+        public static function getCookieJar(){
+            return \Illuminate\Auth\SessionGuard::getCookieJar();
+        }
+        
+        /**
+         * Set the cookie creator instance used by the guard.
+         *
+         * @param \Illuminate\Contracts\Cookie\QueueingFactory $cookie
+         * @return void 
+         * @static 
+         */
+        public static function setCookieJar($cookie){
+            \Illuminate\Auth\SessionGuard::setCookieJar($cookie);
+        }
+        
+        /**
+         * Get the event dispatcher instance.
+         *
+         * @return \Illuminate\Contracts\Events\Dispatcher 
+         * @static 
+         */
+        public static function getDispatcher(){
+            return \Illuminate\Auth\SessionGuard::getDispatcher();
+        }
+        
+        /**
+         * Set the event dispatcher instance.
+         *
+         * @param \Illuminate\Contracts\Events\Dispatcher $events
+         * @return void 
+         * @static 
+         */
+        public static function setDispatcher($events){
+            \Illuminate\Auth\SessionGuard::setDispatcher($events);
+        }
+        
+        /**
+         * Get the session store used by the guard.
+         *
+         * @return \Illuminate\Session\Store 
+         * @static 
+         */
+        public static function getSession(){
+            return \Illuminate\Auth\SessionGuard::getSession();
+        }
+        
+        /**
+         * Get the user provider used by the guard.
+         *
+         * @return \Illuminate\Contracts\Auth\UserProvider 
+         * @static 
+         */
+        public static function getProvider(){
+            return \Illuminate\Auth\SessionGuard::getProvider();
+        }
+        
+        /**
+         * Set the user provider used by the guard.
+         *
+         * @param \Illuminate\Contracts\Auth\UserProvider $provider
+         * @return void 
+         * @static 
+         */
+        public static function setProvider($provider){
+            \Illuminate\Auth\SessionGuard::setProvider($provider);
+        }
+        
+        /**
+         * Return the currently cached user.
+         *
+         * @return \App\User|null 
+         * @static 
+         */
+        public static function getUser(){
+            return \Illuminate\Auth\SessionGuard::getUser();
+        }
+        
+        /**
+         * Set the current user.
+         *
+         * @param \Illuminate\Contracts\Auth\Authenticatable $user
+         * @return void 
+         * @static 
+         */
+        public static function setUser($user){
+            \Illuminate\Auth\SessionGuard::setUser($user);
+        }
+        
+        /**
+         * Get the current request instance.
+         *
+         * @return \Symfony\Component\HttpFoundation\Request 
+         * @static 
+         */
+        public static function getRequest(){
+            return \Illuminate\Auth\SessionGuard::getRequest();
+        }
+        
+        /**
+         * Set the current request instance.
+         *
+         * @param \Symfony\Component\HttpFoundation\Request $request
+         * @return $this 
+         * @static 
+         */
+        public static function setRequest($request){
+            return \Illuminate\Auth\SessionGuard::setRequest($request);
+        }
+        
+        /**
+         * Get the last user we attempted to authenticate.
+         *
+         * @return \App\User 
+         * @static 
+         */
+        public static function getLastAttempted(){
+            return \Illuminate\Auth\SessionGuard::getLastAttempted();
+        }
+        
+        /**
+         * Get a unique identifier for the auth session value.
+         *
+         * @return string 
+         * @static 
+         */
+        public static function getName(){
+            return \Illuminate\Auth\SessionGuard::getName();
+        }
+        
+        /**
+         * Get the name of the cookie used to store the "recaller".
+         *
+         * @return string 
+         * @static 
+         */
+        public static function getRecallerName(){
+            return \Illuminate\Auth\SessionGuard::getRecallerName();
+        }
+        
+        /**
+         * Determine if the user was authenticated via "remember me" cookie.
+         *
+         * @return bool 
+         * @static 
+         */
+        public static function viaRemember(){
+            return \Illuminate\Auth\SessionGuard::viaRemember();
+        }
+        
+        /**
+         * Determine if the current user is authenticated.
+         *
+         * @return bool 
+         * @static 
+         */
+        public static function check(){
+            return \Illuminate\Auth\SessionGuard::check();
+        }
+        
+        /**
+         * Determine if the current user is a guest.
+         *
+         * @return bool 
+         * @static 
+         */
+        public static function guest(){
+            return \Illuminate\Auth\SessionGuard::guest();
         }
         
     }
@@ -6782,11 +7114,12 @@ namespace {
         /**
          * Get the user making the request.
          *
+         * @param string|null $guard
          * @return mixed 
          * @static 
          */
-        public static function user(){
-            return \Illuminate\Http\Request::user();
+        public static function user($guard = null){
+            return \Illuminate\Http\Request::user($guard);
         }
         
         /**
@@ -10145,6 +10478,429 @@ namespace {
          */
         public static function getNames(){
             return \Illuminate\View\Factory::getNames();
+        }
+        
+    }
+
+
+    class Option extends \Polyether\Option\OptionFacade{
+        
+        /**
+         * 
+         *
+         * @static 
+         */
+        public static function autoloadOptions(){
+            return \Polyether\Option\OptionAPI::autoloadOptions();
+        }
+        
+        /**
+         * 
+         *
+         * @static 
+         */
+        public static function getOption($name){
+            return \Polyether\Option\OptionAPI::getOption($name);
+        }
+        
+        /**
+         * 
+         *
+         * @static 
+         */
+        public static function setOption($name, $value, $autoload = 'yes'){
+            return \Polyether\Option\OptionAPI::setOption($name, $value, $autoload);
+        }
+        
+        /**
+         * 
+         *
+         * @static 
+         */
+        public static function updateOption($name, $value, $autoload = null){
+            return \Polyether\Option\OptionAPI::updateOption($name, $value, $autoload);
+        }
+        
+        /**
+         * 
+         *
+         * @static 
+         */
+        public static function isJSON($string){
+            return \Polyether\Option\OptionAPI::isJSON($string);
+        }
+        
+    }
+
+
+    class Plugin extends \Polyether\Plugin\PluginFacade{
+        
+        /**
+         * 
+         *
+         * @static 
+         */
+        public static function setPluginsDir($dir){
+            return \Polyether\Plugin\PluginAPI::setPluginsDir($dir);
+        }
+        
+        /**
+         * 
+         *
+         * @static 
+         */
+        public static function getPluginsDir(){
+            return \Polyether\Plugin\PluginAPI::getPluginsDir();
+        }
+        
+        /**
+         * 
+         *
+         * @static 
+         */
+        public static function init(){
+            return \Polyether\Plugin\PluginAPI::init();
+        }
+        
+        /**
+         * Hook a function or method to a specific filter action.
+         *
+         * @param string $tag The name of the filter to hook the $function_to_add callback to.
+         * @param callback $function_to_add The callback to be run when the filter is applied.
+         * @param int $priority Optional. Used to specify the order in which the functions
+         *                                  associated with a particular action are executed. Default 10.
+         *                                  Lower numbers correspond with earlier execution,
+         *                                  and functions with the same priority are executed
+         *                                  in the order in which they were added to the action.
+         * @param int $accepted_args Optional. The number of arguments the function accepts. Default 1.
+         * @return true 
+         * @static 
+         */
+        public static function add_filter($tag, $function_to_add, $priority = 10, $accepted_args = 1){
+            return \Polyether\Plugin\PluginAPI::add_filter($tag, $function_to_add, $priority, $accepted_args);
+        }
+        
+        /**
+         * Check if any filter has been registered for a hook.
+         *
+         * @param string $tag The name of the filter hook.
+         * @param callback|bool $function_to_check Optional. The callback to check for. Default false.
+         * @return false|int If $function_to_check is omitted, returns boolean for whether the hook has
+         *                   anything registered. When checking a specific function, the priority of that
+         *                   hook is returned, or false if the function is not attached. When using the
+         *                   $function_to_check argument, this function may return a non-boolean value
+         *                   that evaluates to false (e.g.) 0, so use the === operator for testing the
+         *                   return value.
+         * @static 
+         */
+        public static function has_filter($tag, $function_to_check = false){
+            return \Polyether\Plugin\PluginAPI::has_filter($tag, $function_to_check);
+        }
+        
+        /**
+         * Call the functions added to a filter hook.
+         *
+         * @param string $tag The name of the filter hook.
+         * @param mixed $value The value on which the filters hooked to `$tag` are applied on.
+         * @param mixed $var Additional variables passed to the functions hooked to `$tag`.
+         * @return mixed The filtered value after all hooked functions are applied to it.
+         * @static 
+         */
+        public static function apply_filters($tag, $value){
+            return \Polyether\Plugin\PluginAPI::apply_filters($tag, $value);
+        }
+        
+        /**
+         * Execute functions hooked on a specific filter hook, specifying arguments in an array.
+         *
+         * @see apply_filters() This function is identical, but the arguments passed to the
+         * functions hooked to `$tag` are supplied using an array.
+         * @param string $tag The name of the filter hook.
+         * @param array $args The arguments supplied to the functions hooked to $tag.
+         * @return mixed The filtered value after all hooked functions are applied to it.
+         * @static 
+         */
+        public static function apply_filters_ref_array($tag, $args){
+            return \Polyether\Plugin\PluginAPI::apply_filters_ref_array($tag, $args);
+        }
+        
+        /**
+         * Removes a function from a specified filter hook.
+         * 
+         * This function removes a function attached to a specified filter hook. This
+         * method can be used to remove default functions attached to a specific filter
+         * hook and possibly replace them with a substitute.
+         * 
+         * To remove a hook, the $function_to_remove and $priority arguments must match
+         * when the hook was added. This goes for both filters and actions. No warning
+         * will be given on removal failure.
+         *
+         * @param string $tag The filter hook to which the function to be removed is hooked.
+         * @param callback $function_to_remove The name of the function which should be removed.
+         * @param int $priority Optional. The priority of the function. Default 10.
+         * @return bool Whether the function existed before it was removed.
+         * @static 
+         */
+        public static function remove_filter($tag, $function_to_remove, $priority = 10){
+            return \Polyether\Plugin\PluginAPI::remove_filter($tag, $function_to_remove, $priority);
+        }
+        
+        /**
+         * Remove all of the hooks from a filter.
+         *
+         * @param string $tag The filter to remove hooks from.
+         * @param int|bool $priority Optional. The priority number to remove. Default false.
+         * @return true True when finished.
+         * @static 
+         */
+        public static function remove_all_filters($tag, $priority = false){
+            return \Polyether\Plugin\PluginAPI::remove_all_filters($tag, $priority);
+        }
+        
+        /**
+         * Retrieve the name of the current filter or action.
+         *
+         * @return string Hook name of the current filter or action.
+         * @static 
+         */
+        public static function current_filter(){
+            return \Polyether\Plugin\PluginAPI::current_filter();
+        }
+        
+        /**
+         * Retrieve the name of the current action.
+         *
+         * @return string Hook name of the current action.
+         * @static 
+         */
+        public static function current_action(){
+            return \Polyether\Plugin\PluginAPI::current_action();
+        }
+        
+        /**
+         * Retrieve the name of a filter currently being processed.
+         * 
+         * The function current_filter() only returns the most recent filter or action
+         * being executed. did_action() returns true once the action is initially
+         * processed.
+         * 
+         * This function allows detection for any filter currently being
+         * executed (despite not being the most recent filter to fire, in the case of
+         * hooks called from hook callbacks) to be verified.
+         *
+         * @param null|string $filter Optional. Filter to check. Defaults to null, which
+         *                            checks if any filter is currently being run.
+         * @return bool Whether the filter is currently in the stack.
+         * @static 
+         */
+        public static function doing_filter($filter = null){
+            return \Polyether\Plugin\PluginAPI::doing_filter($filter);
+        }
+        
+        /**
+         * Retrieve the name of an action currently being processed.
+         *
+         * @param string|null $action Optional. Action to check. Defaults to null, which checks
+         *                            if any action is currently being run.
+         * @return bool Whether the action is currently in the stack.
+         * @static 
+         */
+        public static function doing_action($action = null){
+            return \Polyether\Plugin\PluginAPI::doing_action($action);
+        }
+        
+        /**
+         * Hooks a function on to a specific action.
+         * 
+         * Actions are the hooks that the Ether core launches at specific points
+         * during execution, or when specific events occur. Plugins can specify that
+         * one or more of its PHP functions are executed at these points, using the
+         * Action API.
+         *
+         * @param string $tag The name of the action to which the $function_to_add is hooked.
+         * @param callback $function_to_add The name of the function you wish to be called.
+         * @param int $priority Optional. Used to specify the order in which the functions
+         *                                  associated with a particular action are executed. Default 10.
+         *                                  Lower numbers correspond with earlier execution,
+         *                                  and functions with the same priority are executed
+         *                                  in the order in which they were added to the action.
+         * @param int $accepted_args Optional. The number of arguments the function accepts. Default 1.
+         * @return true Will always return true.
+         * @static 
+         */
+        public static function add_action($tag, $function_to_add, $priority = 10, $accepted_args = 1){
+            return \Polyether\Plugin\PluginAPI::add_action($tag, $function_to_add, $priority, $accepted_args);
+        }
+        
+        /**
+         * Execute functions hooked on a specific action hook.
+         * 
+         * This function invokes all functions attached to action hook `$tag`. It is
+         * possible to create new action hooks by simply calling this function,
+         * specifying the name of the new hook using the `$tag` parameter.
+         * 
+         * You can pass extra arguments to the hooks, much like you can with
+         * {@see apply_filters()}.
+         *
+         * @param string $tag The name of the action to be executed.
+         * @param mixed $arg Optional. Additional arguments which are passed on to the
+         *                    functions hooked to the action. Default empty.
+         * @static 
+         */
+        public static function do_action($tag, $arg = ''){
+            return \Polyether\Plugin\PluginAPI::do_action($tag, $arg);
+        }
+        
+        /**
+         * Retrieve the number of times an action is fired.
+         *
+         * @param string $tag The name of the action hook.
+         * @return int The number of times action hook $tag is fired.
+         * @static 
+         */
+        public static function did_action($tag){
+            return \Polyether\Plugin\PluginAPI::did_action($tag);
+        }
+        
+        /**
+         * Execute functions hooked on a specific action hook, specifying arguments in an array.
+         *
+         * @see do_action() This function is identical, but the arguments passed to the
+         * @param string $tag The name of the action to be executed.
+         * @param array $args The arguments supplied to the functions hooked to `$tag`.
+         * @static 
+         */
+        public static function do_action_ref_array($tag, $args){
+            return \Polyether\Plugin\PluginAPI::do_action_ref_array($tag, $args);
+        }
+        
+        /**
+         * Check if any action has been registered for a hook.
+         *
+         * @see has_filter() has_action() is an alias of has_filter().
+         * @param string $tag The name of the action hook.
+         * @param callback|bool $function_to_check Optional. The callback to check for. Default false.
+         * @return bool|int If $function_to_check is omitted, returns boolean for whether the hook has
+         *                  anything registered. When checking a specific function, the priority of that
+         *                  hook is returned, or false if the function is not attached. When using the
+         *                  $function_to_check argument, this function may return a non-boolean value
+         *                  that evaluates to false (e.g.) 0, so use the === operator for testing the
+         *                  return value.
+         * @static 
+         */
+        public static function has_action($tag, $function_to_check = false){
+            return \Polyether\Plugin\PluginAPI::has_action($tag, $function_to_check);
+        }
+        
+        /**
+         * Removes a function from a specified action hook.
+         * 
+         * This function removes a function attached to a specified action hook. This
+         * method can be used to remove default functions attached to a specific filter
+         * hook and possibly replace them with a substitute.
+         *
+         * @param string $tag The action hook to which the function to be removed is hooked.
+         * @param callback $function_to_remove The name of the function which should be removed.
+         * @param int $priority Optional. The priority of the function. Default 10.
+         * @return bool Whether the function is removed.
+         * @static 
+         */
+        public static function remove_action($tag, $function_to_remove, $priority = 10){
+            return \Polyether\Plugin\PluginAPI::remove_action($tag, $function_to_remove, $priority);
+        }
+        
+        /**
+         * Remove all of the hooks from an action.
+         *
+         * @param string $tag The action to remove hooks from.
+         * @param int|bool $priority The priority number to remove them from. Default false.
+         * @return true True when finished.
+         * @static 
+         */
+        public static function remove_all_actions($tag, $priority = false){
+            return \Polyether\Plugin\PluginAPI::remove_all_actions($tag, $priority);
+        }
+        
+    }
+
+
+    class Taxonomy extends \Polyether\Taxonomy\TaxonomyFacade{
+        
+        /**
+         * 
+         *
+         * @static 
+         */
+        public static function register_Taxonomy($Taxonomy, $object_type, $args = array()){
+            return \Polyether\Taxonomy\Taxonomy::register_Taxonomy($Taxonomy, $object_type, $args);
+        }
+        
+        /**
+         * 
+         *
+         * @static 
+         */
+        public static function unregister_Taxonomy($Taxonomy){
+            return \Polyether\Taxonomy\Taxonomy::unregister_Taxonomy($Taxonomy);
+        }
+        
+        /**
+         * 
+         *
+         * @static 
+         */
+        public static function register_Taxonomy_for_object_type($Taxonomy, $object_type){
+            return \Polyether\Taxonomy\Taxonomy::register_Taxonomy_for_object_type($Taxonomy, $object_type);
+        }
+        
+        /**
+         * 
+         *
+         * @static 
+         */
+        public static function Taxonomy_exists($Taxonomy){
+            return \Polyether\Taxonomy\Taxonomy::Taxonomy_exists($Taxonomy);
+        }
+        
+        /**
+         * 
+         *
+         * @static 
+         */
+        public static function get_taxonamies(){
+            return \Polyether\Taxonomy\Taxonomy::get_taxonamies();
+        }
+        
+    }
+
+
+    class Post extends \Polyether\Post\PostFacade{
+        
+        /**
+         * 
+         *
+         * @static 
+         */
+        public static function register_post_type($post_type, $args = array()){
+            return \Polyether\Post\Post::register_post_type($post_type, $args);
+        }
+        
+        /**
+         * 
+         *
+         * @static 
+         */
+        public static function post_type_object_exists($post_type){
+            return \Polyether\Post\Post::post_type_object_exists($post_type);
+        }
+        
+        /**
+         * 
+         *
+         * @static 
+         */
+        public static function get_post_type_object($post_type){
+            return \Polyether\Post\Post::get_post_type_object($post_type);
         }
         
     }
