@@ -363,12 +363,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "8c21016f6b7d932d19df3faba78479db5339759c"
+                "reference": "18fd6b2be7c37887b744ba24b38f620db52bd336"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/8c21016f6b7d932d19df3faba78479db5339759c",
-                "reference": "8c21016f6b7d932d19df3faba78479db5339759c",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/18fd6b2be7c37887b744ba24b38f620db52bd336",
+                "reference": "18fd6b2be7c37887b744ba24b38f620db52bd336",
                 "shasum": ""
             },
             "require": {
@@ -483,7 +483,7 @@
                 "framework",
                 "laravel"
             ],
-            "time": "2016-02-05 14:57:25"
+            "time": "2016-02-10 16:17:40"
         },
         {
             "name": "league/flysystem",
@@ -743,12 +743,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/nikic/PHP-Parser.git",
-                "reference": "e05ef2374367ae8d96101cd6f353b2f0362ad80f"
+                "reference": "d6361136e121c8b2bd64dd3437db127b7ae0c353"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nikic/PHP-Parser/zipball/e05ef2374367ae8d96101cd6f353b2f0362ad80f",
-                "reference": "e05ef2374367ae8d96101cd6f353b2f0362ad80f",
+                "url": "https://api.github.com/repos/nikic/PHP-Parser/zipball/d6361136e121c8b2bd64dd3437db127b7ae0c353",
+                "reference": "d6361136e121c8b2bd64dd3437db127b7ae0c353",
                 "shasum": ""
             },
             "require": {
@@ -786,20 +786,20 @@
                 "parser",
                 "php"
             ],
-            "time": "2016-01-28 16:03:02"
+            "time": "2016-02-09 12:30:39"
         },
         {
             "name": "paragonie/random_compat",
-            "version": "1.1.6",
+            "version": "v1.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/paragonie/random_compat.git",
-                "reference": "e6f80ab77885151908d0ec743689ca700886e8b0"
+                "reference": "b0e69d10852716b2ccbdff69c75c477637220790"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/paragonie/random_compat/zipball/e6f80ab77885151908d0ec743689ca700886e8b0",
-                "reference": "e6f80ab77885151908d0ec743689ca700886e8b0",
+                "url": "https://api.github.com/repos/paragonie/random_compat/zipball/b0e69d10852716b2ccbdff69c75c477637220790",
+                "reference": "b0e69d10852716b2ccbdff69c75c477637220790",
                 "shasum": ""
             },
             "require": {
@@ -834,7 +834,7 @@
                 "pseudorandom",
                 "random"
             ],
-            "time": "2016-01-29 16:19:52"
+            "time": "2016-02-06 03:52:05"
         },
         {
             "name": "psr/log",
@@ -961,12 +961,13 @@
             "dist": {
                 "type": "path",
                 "url": "../ether-packages/polyether/",
-                "reference": "ef10720b128baa77d997e4e21db58f4d0836e762",
+                "reference": "30c017b93a5c5b7190abab54c6d0dd6af0da4707",
                 "shasum": null
             },
             "require": {
                 "bosnadev/repositories": "0.*",
-                "illuminate/database": "5.2.*"
+                "illuminate/database": "5.2.*",
+                "illuminate/support": "5.2.*"
             },
             "type": "library",
             "autoload": {
@@ -2046,12 +2047,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/fzaninotto/Faker.git",
-                "reference": "8d8e0e1a6151a46ea5cda344e2234b7225c61e7a"
+                "reference": "ff1d463edb2c74e39f4ec76f7eb99fd47b237507"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/fzaninotto/Faker/zipball/8d8e0e1a6151a46ea5cda344e2234b7225c61e7a",
-                "reference": "8d8e0e1a6151a46ea5cda344e2234b7225c61e7a",
+                "url": "https://api.github.com/repos/fzaninotto/Faker/zipball/ff1d463edb2c74e39f4ec76f7eb99fd47b237507",
+                "reference": "ff1d463edb2c74e39f4ec76f7eb99fd47b237507",
                 "shasum": ""
             },
             "require": {
@@ -2088,7 +2089,7 @@
                 "faker",
                 "fixtures"
             ],
-            "time": "2016-02-04 15:55:27"
+            "time": "2016-02-09 21:50:17"
         },
         {
             "name": "hamcrest/hamcrest-php",
@@ -3289,12 +3290,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/yaml.git",
-                "reference": "7e7f0903e26a01647ad76e53fb5f6e294da187b2"
+                "reference": "05a12065aa18e049f3cf91b0038374e4b1dbcb41"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/yaml/zipball/7e7f0903e26a01647ad76e53fb5f6e294da187b2",
-                "reference": "7e7f0903e26a01647ad76e53fb5f6e294da187b2",
+                "url": "https://api.github.com/repos/symfony/yaml/zipball/05a12065aa18e049f3cf91b0038374e4b1dbcb41",
+                "reference": "05a12065aa18e049f3cf91b0038374e4b1dbcb41",
                 "shasum": ""
             },
             "require": {
@@ -3330,7 +3331,7 @@
             ],
             "description": "Symfony Yaml Component",
             "homepage": "https://symfony.com",
-            "time": "2016-02-05 07:58:37"
+            "time": "2016-02-09 20:02:42"
         }
     ],
     "aliases": [],

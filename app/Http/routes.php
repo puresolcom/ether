@@ -25,9 +25,8 @@
 
 Route::group(['middleware' => ['web']], function () {
     Route::get('/', function () {
-        \Option::getOption('title');
-        \Option::getOption('title');
-        \Option::getOption('title');
+        \Option::get('title');
+        \Option::get('title');
         return view('welcome');
     });
 });

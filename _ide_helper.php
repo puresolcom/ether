@@ -1,7 +1,7 @@
 <?php
 /**
  * A helper file for Laravel 5, to provide autocomplete information to your IDE
- * Generated for Laravel 5.2.14 on 2016-02-05.
+ * Generated for Laravel 5.2.14 on 2016-02-10.
  *
  * @author Barry vd. Heuvel <barryvdh@gmail.com>
  * @see https://github.com/barryvdh/laravel-ide-helper
@@ -3171,15 +3171,39 @@ namespace {
         }
         
         /**
-         * Set the default fetch mode for the connection.
+         * Get the fetch argument to be applied when selecting.
+         *
+         * @return mixed 
+         * @static 
+         */
+        public static function getFetchArgument(){
+            //Method inherited from \Illuminate\Database\Connection            
+            return \Illuminate\Database\MySqlConnection::getFetchArgument();
+        }
+        
+        /**
+         * Get custom constructor arguments for the PDO::FETCH_CLASS fetch mode.
+         *
+         * @return array 
+         * @static 
+         */
+        public static function getFetchConstructorArgument(){
+            //Method inherited from \Illuminate\Database\Connection            
+            return \Illuminate\Database\MySqlConnection::getFetchConstructorArgument();
+        }
+        
+        /**
+         * Set the default fetch mode for the connection, and optional arguments for the given fetch mode.
          *
          * @param int $fetchMode
+         * @param mixed $fetchArgument
+         * @param array $fetchConstructorArgument
          * @return int 
          * @static 
          */
-        public static function setFetchMode($fetchMode){
+        public static function setFetchMode($fetchMode, $fetchArgument = null, $fetchConstructorArgument = array()){
             //Method inherited from \Illuminate\Database\Connection            
-            return \Illuminate\Database\MySqlConnection::setFetchMode($fetchMode);
+            return \Illuminate\Database\MySqlConnection::setFetchMode($fetchMode, $fetchArgument, $fetchConstructorArgument);
         }
         
         /**
@@ -9605,6 +9629,16 @@ namespace {
         }
         
         /**
+         * Get a default cloud filesystem instance.
+         *
+         * @return \Illuminate\Contracts\Filesystem\Filesystem 
+         * @static 
+         */
+        public static function cloud(){
+            return \Illuminate\Filesystem\FilesystemManager::cloud();
+        }
+        
+        /**
          * Create an instance of the local driver.
          *
          * @param array $config
@@ -9656,6 +9690,16 @@ namespace {
          */
         public static function getDefaultDriver(){
             return \Illuminate\Filesystem\FilesystemManager::getDefaultDriver();
+        }
+        
+        /**
+         * Get the default cloud driver name.
+         *
+         * @return string 
+         * @static 
+         */
+        public static function getDefaultCloudDriver(){
+            return \Illuminate\Filesystem\FilesystemManager::getDefaultCloudDriver();
         }
         
         /**
@@ -10499,26 +10543,8 @@ namespace {
          *
          * @static 
          */
-        public static function getOption($name){
-            return \Polyether\Option\OptionAPI::getOption($name);
-        }
-        
-        /**
-         * 
-         *
-         * @static 
-         */
-        public static function setOption($name, $value, $autoload = 'yes'){
-            return \Polyether\Option\OptionAPI::setOption($name, $value, $autoload);
-        }
-        
-        /**
-         * 
-         *
-         * @static 
-         */
-        public static function updateOption($name, $value, $autoload = null){
-            return \Polyether\Option\OptionAPI::updateOption($name, $value, $autoload);
+        public static function get($name){
+            return \Polyether\Option\OptionAPI::get($name);
         }
         
         /**
@@ -10528,6 +10554,24 @@ namespace {
          */
         public static function isJSON($string){
             return \Polyether\Option\OptionAPI::isJSON($string);
+        }
+        
+        /**
+         * 
+         *
+         * @static 
+         */
+        public static function set($name, $value, $autoload = 'yes'){
+            return \Polyether\Option\OptionAPI::set($name, $value, $autoload);
+        }
+        
+        /**
+         * 
+         *
+         * @static 
+         */
+        public static function update($name, $value, $autoload = null){
+            return \Polyether\Option\OptionAPI::update($name, $value, $autoload);
         }
         
     }
@@ -10540,8 +10584,8 @@ namespace {
          *
          * @static 
          */
-        public static function setPluginsDir($dir){
-            return \Polyether\Plugin\PluginAPI::setPluginsDir($dir);
+        public static function init(){
+            return \Polyether\Plugin\PluginAPI::init();
         }
         
         /**
@@ -10558,43 +10602,8 @@ namespace {
          *
          * @static 
          */
-        public static function init(){
-            return \Polyether\Plugin\PluginAPI::init();
-        }
-        
-        /**
-         * Hook a function or method to a specific filter action.
-         *
-         * @param string $tag The name of the filter to hook the $function_to_add callback to.
-         * @param callback $function_to_add The callback to be run when the filter is applied.
-         * @param int $priority Optional. Used to specify the order in which the functions
-         *                                  associated with a particular action are executed. Default 10.
-         *                                  Lower numbers correspond with earlier execution,
-         *                                  and functions with the same priority are executed
-         *                                  in the order in which they were added to the action.
-         * @param int $accepted_args Optional. The number of arguments the function accepts. Default 1.
-         * @return true 
-         * @static 
-         */
-        public static function add_filter($tag, $function_to_add, $priority = 10, $accepted_args = 1){
-            return \Polyether\Plugin\PluginAPI::add_filter($tag, $function_to_add, $priority, $accepted_args);
-        }
-        
-        /**
-         * Check if any filter has been registered for a hook.
-         *
-         * @param string $tag The name of the filter hook.
-         * @param callback|bool $function_to_check Optional. The callback to check for. Default false.
-         * @return false|int If $function_to_check is omitted, returns boolean for whether the hook has
-         *                   anything registered. When checking a specific function, the priority of that
-         *                   hook is returned, or false if the function is not attached. When using the
-         *                   $function_to_check argument, this function may return a non-boolean value
-         *                   that evaluates to false (e.g.) 0, so use the === operator for testing the
-         *                   return value.
-         * @static 
-         */
-        public static function has_filter($tag, $function_to_check = false){
-            return \Polyether\Plugin\PluginAPI::has_filter($tag, $function_to_check);
+        public static function setPluginsDir($dir){
+            return \Polyether\Plugin\PluginAPI::setPluginsDir($dir);
         }
         
         /**
@@ -10625,36 +10634,13 @@ namespace {
         }
         
         /**
-         * Removes a function from a specified filter hook.
-         * 
-         * This function removes a function attached to a specified filter hook. This
-         * method can be used to remove default functions attached to a specific filter
-         * hook and possibly replace them with a substitute.
-         * 
-         * To remove a hook, the $function_to_remove and $priority arguments must match
-         * when the hook was added. This goes for both filters and actions. No warning
-         * will be given on removal failure.
+         * Retrieve the name of the current action.
          *
-         * @param string $tag The filter hook to which the function to be removed is hooked.
-         * @param callback $function_to_remove The name of the function which should be removed.
-         * @param int $priority Optional. The priority of the function. Default 10.
-         * @return bool Whether the function existed before it was removed.
+         * @return string Hook name of the current action.
          * @static 
          */
-        public static function remove_filter($tag, $function_to_remove, $priority = 10){
-            return \Polyether\Plugin\PluginAPI::remove_filter($tag, $function_to_remove, $priority);
-        }
-        
-        /**
-         * Remove all of the hooks from a filter.
-         *
-         * @param string $tag The filter to remove hooks from.
-         * @param int|bool $priority Optional. The priority number to remove. Default false.
-         * @return true True when finished.
-         * @static 
-         */
-        public static function remove_all_filters($tag, $priority = false){
-            return \Polyether\Plugin\PluginAPI::remove_all_filters($tag, $priority);
+        public static function current_action(){
+            return \Polyether\Plugin\PluginAPI::current_action();
         }
         
         /**
@@ -10668,13 +10654,15 @@ namespace {
         }
         
         /**
-         * Retrieve the name of the current action.
+         * Retrieve the name of an action currently being processed.
          *
-         * @return string Hook name of the current action.
+         * @param string|null $action Optional. Action to check. Defaults to null, which checks
+         *                            if any action is currently being run.
+         * @return bool Whether the action is currently in the stack.
          * @static 
          */
-        public static function current_action(){
-            return \Polyether\Plugin\PluginAPI::current_action();
+        public static function doing_action($action = null){
+            return \Polyether\Plugin\PluginAPI::doing_action($action);
         }
         
         /**
@@ -10698,18 +10686,6 @@ namespace {
         }
         
         /**
-         * Retrieve the name of an action currently being processed.
-         *
-         * @param string|null $action Optional. Action to check. Defaults to null, which checks
-         *                            if any action is currently being run.
-         * @return bool Whether the action is currently in the stack.
-         * @static 
-         */
-        public static function doing_action($action = null){
-            return \Polyether\Plugin\PluginAPI::doing_action($action);
-        }
-        
-        /**
          * Hooks a function on to a specific action.
          * 
          * Actions are the hooks that the Ether core launches at specific points
@@ -10730,6 +10706,24 @@ namespace {
          */
         public static function add_action($tag, $function_to_add, $priority = 10, $accepted_args = 1){
             return \Polyether\Plugin\PluginAPI::add_action($tag, $function_to_add, $priority, $accepted_args);
+        }
+        
+        /**
+         * Hook a function or method to a specific filter action.
+         *
+         * @param string $tag The name of the filter to hook the $function_to_add callback to.
+         * @param callback $function_to_add The callback to be run when the filter is applied.
+         * @param int $priority Optional. Used to specify the order in which the functions
+         *                                  associated with a particular action are executed. Default 10.
+         *                                  Lower numbers correspond with earlier execution,
+         *                                  and functions with the same priority are executed
+         *                                  in the order in which they were added to the action.
+         * @param int $accepted_args Optional. The number of arguments the function accepts. Default 1.
+         * @return true 
+         * @static 
+         */
+        public static function add_filter($tag, $function_to_add, $priority = 10, $accepted_args = 1){
+            return \Polyether\Plugin\PluginAPI::add_filter($tag, $function_to_add, $priority, $accepted_args);
         }
         
         /**
@@ -10793,6 +10787,23 @@ namespace {
         }
         
         /**
+         * Check if any filter has been registered for a hook.
+         *
+         * @param string $tag The name of the filter hook.
+         * @param callback|bool $function_to_check Optional. The callback to check for. Default false.
+         * @return false|int If $function_to_check is omitted, returns boolean for whether the hook has
+         *                   anything registered. When checking a specific function, the priority of that
+         *                   hook is returned, or false if the function is not attached. When using the
+         *                   $function_to_check argument, this function may return a non-boolean value
+         *                   that evaluates to false (e.g.) 0, so use the === operator for testing the
+         *                   return value.
+         * @static 
+         */
+        public static function has_filter($tag, $function_to_check = false){
+            return \Polyether\Plugin\PluginAPI::has_filter($tag, $function_to_check);
+        }
+        
+        /**
          * Removes a function from a specified action hook.
          * 
          * This function removes a function attached to a specified action hook. This
@@ -10810,6 +10821,27 @@ namespace {
         }
         
         /**
+         * Removes a function from a specified filter hook.
+         * 
+         * This function removes a function attached to a specified filter hook. This
+         * method can be used to remove default functions attached to a specific filter
+         * hook and possibly replace them with a substitute.
+         * 
+         * To remove a hook, the $function_to_remove and $priority arguments must match
+         * when the hook was added. This goes for both filters and actions. No warning
+         * will be given on removal failure.
+         *
+         * @param string $tag The filter hook to which the function to be removed is hooked.
+         * @param callback $function_to_remove The name of the function which should be removed.
+         * @param int $priority Optional. The priority of the function. Default 10.
+         * @return bool Whether the function existed before it was removed.
+         * @static 
+         */
+        public static function remove_filter($tag, $function_to_remove, $priority = 10){
+            return \Polyether\Plugin\PluginAPI::remove_filter($tag, $function_to_remove, $priority);
+        }
+        
+        /**
          * Remove all of the hooks from an action.
          *
          * @param string $tag The action to remove hooks from.
@@ -10819,6 +10851,18 @@ namespace {
          */
         public static function remove_all_actions($tag, $priority = false){
             return \Polyether\Plugin\PluginAPI::remove_all_actions($tag, $priority);
+        }
+        
+        /**
+         * Remove all of the hooks from a filter.
+         *
+         * @param string $tag The filter to remove hooks from.
+         * @param int|bool $priority Optional. The priority number to remove. Default false.
+         * @return true True when finished.
+         * @static 
+         */
+        public static function remove_all_filters($tag, $priority = false){
+            return \Polyether\Plugin\PluginAPI::remove_all_filters($tag, $priority);
         }
         
     }
@@ -10831,8 +10875,8 @@ namespace {
          *
          * @static 
          */
-        public static function register_Taxonomy($Taxonomy, $object_type, $args = array()){
-            return \Polyether\Taxonomy\Taxonomy::register_Taxonomy($Taxonomy, $object_type, $args);
+        public static function register_taxonomy($taxonomy, $object_type, $args = array()){
+            return \Polyether\Taxonomy\Taxonomy::register_taxonomy($taxonomy, $object_type, $args);
         }
         
         /**
@@ -10840,8 +10884,8 @@ namespace {
          *
          * @static 
          */
-        public static function unregister_Taxonomy($Taxonomy){
-            return \Polyether\Taxonomy\Taxonomy::unregister_Taxonomy($Taxonomy);
+        public static function unregister_taxonomy($taxonomy){
+            return \Polyether\Taxonomy\Taxonomy::unregister_taxonomy($taxonomy);
         }
         
         /**
@@ -10849,8 +10893,8 @@ namespace {
          *
          * @static 
          */
-        public static function register_Taxonomy_for_object_type($Taxonomy, $object_type){
-            return \Polyether\Taxonomy\Taxonomy::register_Taxonomy_for_object_type($Taxonomy, $object_type);
+        public static function register_taxonomy_for_object_type($taxonomy, $object_type){
+            return \Polyether\Taxonomy\Taxonomy::register_taxonomy_for_object_type($taxonomy, $object_type);
         }
         
         /**
@@ -10858,8 +10902,8 @@ namespace {
          *
          * @static 
          */
-        public static function Taxonomy_exists($Taxonomy){
-            return \Polyether\Taxonomy\Taxonomy::Taxonomy_exists($Taxonomy);
+        public static function taxonomy_exists($taxonomy){
+            return \Polyether\Taxonomy\Taxonomy::taxonomy_exists($taxonomy);
         }
         
         /**
@@ -10867,8 +10911,8 @@ namespace {
          *
          * @static 
          */
-        public static function get_taxonamies(){
-            return \Polyether\Taxonomy\Taxonomy::get_taxonamies();
+        public static function get_taxonomies(){
+            return \Polyether\Taxonomy\Taxonomy::get_taxonomies();
         }
         
     }
