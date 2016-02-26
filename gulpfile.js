@@ -11,6 +11,7 @@ var elixir = require('laravel-elixir');
  |
  */
 
-elixir(function(mix) {
-    mix.sass('app.scss');
+elixir(function (mix) {
+    this.config.assetsPath = 'vendor/puresolcom/polyether/src/Backend/resources/assets/';
+    mix.sass('styles.scss', 'public/vendor/backend');
 });

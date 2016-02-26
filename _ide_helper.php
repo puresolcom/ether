@@ -1,7 +1,7 @@
 <?php
 /**
  * A helper file for Laravel 5, to provide autocomplete information to your IDE
- * Generated for Laravel 5.2.14 on 2016-02-10.
+ * Generated for Laravel 5.2.21 on 2016-02-26.
  *
  * @author Barry vd. Heuvel <barryvdh@gmail.com>
  * @see https://github.com/barryvdh/laravel-ide-helper
@@ -2169,7 +2169,7 @@ namespace {
          * @static 
          */
         public static function increment($key, $value = 1){
-            return \Illuminate\Cache\FileStore::increment($key, $value);
+            return \Illuminate\Cache\RedisStore::increment($key, $value);
         }
         
         /**
@@ -2181,7 +2181,7 @@ namespace {
          * @static 
          */
         public static function decrement($key, $value = 1){
-            return \Illuminate\Cache\FileStore::decrement($key, $value);
+            return \Illuminate\Cache\RedisStore::decrement($key, $value);
         }
         
         /**
@@ -2191,27 +2191,38 @@ namespace {
          * @static 
          */
         public static function flush(){
-            \Illuminate\Cache\FileStore::flush();
+            \Illuminate\Cache\RedisStore::flush();
         }
         
         /**
-         * Get the Filesystem instance.
+         * Get the Redis connection instance.
          *
-         * @return \Illuminate\Filesystem\Filesystem 
+         * @return \Predis\ClientInterface 
          * @static 
          */
-        public static function getFilesystem(){
-            return \Illuminate\Cache\FileStore::getFilesystem();
+        public static function connection(){
+            return \Illuminate\Cache\RedisStore::connection();
         }
         
         /**
-         * Get the working directory of the cache.
+         * Set the connection name to be used.
          *
-         * @return string 
+         * @param string $connection
+         * @return void 
          * @static 
          */
-        public static function getDirectory(){
-            return \Illuminate\Cache\FileStore::getDirectory();
+        public static function setConnection($connection){
+            \Illuminate\Cache\RedisStore::setConnection($connection);
+        }
+        
+        /**
+         * Get the Redis database instance.
+         *
+         * @return \Illuminate\Redis\Database 
+         * @static 
+         */
+        public static function getRedis(){
+            return \Illuminate\Cache\RedisStore::getRedis();
         }
         
         /**
@@ -2221,7 +2232,18 @@ namespace {
          * @static 
          */
         public static function getPrefix(){
-            return \Illuminate\Cache\FileStore::getPrefix();
+            return \Illuminate\Cache\RedisStore::getPrefix();
+        }
+        
+        /**
+         * Set the cache key prefix.
+         *
+         * @param string $prefix
+         * @return void 
+         * @static 
+         */
+        public static function setPrefix($prefix){
+            \Illuminate\Cache\RedisStore::setPrefix($prefix);
         }
         
     }
@@ -3393,6 +3415,52 @@ namespace {
          */
         public static function findOrFail($id, $columns = array()){
             return \Illuminate\Database\Eloquent\Builder::findOrFail($id, $columns);
+        }
+        
+        /**
+         * Find a model by its primary key or return fresh model instance.
+         *
+         * @param mixed $id
+         * @param array $columns
+         * @return \Illuminate\Database\Eloquent\Model 
+         * @static 
+         */
+        public static function findOrNew($id, $columns = array()){
+            return \Illuminate\Database\Eloquent\Builder::findOrNew($id, $columns);
+        }
+        
+        /**
+         * Get the first record matching the attributes or instantiate it.
+         *
+         * @param array $attributes
+         * @return \Illuminate\Database\Eloquent\Model 
+         * @static 
+         */
+        public static function firstOrNew($attributes){
+            return \Illuminate\Database\Eloquent\Builder::firstOrNew($attributes);
+        }
+        
+        /**
+         * Get the first record matching the attributes or create it.
+         *
+         * @param array $attributes
+         * @return \Illuminate\Database\Eloquent\Model 
+         * @static 
+         */
+        public static function firstOrCreate($attributes){
+            return \Illuminate\Database\Eloquent\Builder::firstOrCreate($attributes);
+        }
+        
+        /**
+         * Create or update a record matching the attributes, and fill it with values.
+         *
+         * @param array $attributes
+         * @param array $values
+         * @return \Illuminate\Database\Eloquent\Model 
+         * @static 
+         */
+        public static function updateOrCreate($attributes, $values = array()){
+            return \Illuminate\Database\Eloquent\Builder::updateOrCreate($attributes, $values);
         }
         
         /**
@@ -5529,7 +5597,7 @@ namespace {
          * Get a translation according to an integer value.
          *
          * @param string $key
-         * @param int $number
+         * @param int|array|\Countable $number
          * @param array $replace
          * @param string $locale
          * @return string 
@@ -5557,7 +5625,7 @@ namespace {
          * Get a translation according to an integer value.
          *
          * @param string $id
-         * @param int $number
+         * @param int|array|\Countable $number
          * @param array $parameters
          * @param string $domain
          * @param string $locale
@@ -6178,6 +6246,17 @@ namespace {
     class Queue extends \Illuminate\Support\Facades\Queue{
         
         /**
+         * Register an event listener for the before job event.
+         *
+         * @param mixed $callback
+         * @return void 
+         * @static 
+         */
+        public static function before($callback){
+            \Illuminate\Queue\QueueManager::before($callback);
+        }
+        
+        /**
          * Register an event listener for the after job event.
          *
          * @param mixed $callback
@@ -6588,6 +6667,61 @@ namespace {
     }
 
 
+    class Redis extends \Illuminate\Support\Facades\Redis{
+        
+        /**
+         * Get a specific Redis connection instance.
+         *
+         * @param string $name
+         * @return \Predis\ClientInterface|null 
+         * @static 
+         */
+        public static function connection($name = 'default'){
+            return \Illuminate\Redis\Database::connection($name);
+        }
+        
+        /**
+         * Run a command against the Redis database.
+         *
+         * @param string $method
+         * @param array $parameters
+         * @return mixed 
+         * @static 
+         */
+        public static function command($method, $parameters = array()){
+            return \Illuminate\Redis\Database::command($method, $parameters);
+        }
+        
+        /**
+         * Subscribe to a set of given channels for messages.
+         *
+         * @param array|string $channels
+         * @param \Closure $callback
+         * @param string $connection
+         * @param string $method
+         * @return void 
+         * @static 
+         */
+        public static function subscribe($channels, $callback, $connection = null, $method = 'subscribe'){
+            \Illuminate\Redis\Database::subscribe($channels, $callback, $connection, $method);
+        }
+        
+        /**
+         * Subscribe to a set of given channels with wildcards.
+         *
+         * @param array|string $channels
+         * @param \Closure $callback
+         * @param string $connection
+         * @return void 
+         * @static 
+         */
+        public static function psubscribe($channels, $callback, $connection = null){
+            \Illuminate\Redis\Database::psubscribe($channels, $callback, $connection);
+        }
+        
+    }
+
+
     class Request extends \Illuminate\Support\Facades\Request{
         
         /**
@@ -6648,6 +6782,17 @@ namespace {
          */
         public static function fullUrl(){
             return \Illuminate\Http\Request::fullUrl();
+        }
+        
+        /**
+         * Get the full URL for the request with the added query string parameters.
+         *
+         * @param array $query
+         * @return string 
+         * @static 
+         */
+        public static function fullUrlWithQuery($query){
+            return \Illuminate\Http\Request::fullUrlWithQuery($query);
         }
         
         /**
@@ -6863,6 +7008,16 @@ namespace {
          */
         public static function cookie($key = null, $default = null){
             return \Illuminate\Http\Request::cookie($key, $default);
+        }
+        
+        /**
+         * Get an array of all of the files on the request.
+         *
+         * @return array 
+         * @static 
+         */
+        public static function allFiles(){
+            return \Illuminate\Http\Request::allFiles();
         }
         
         /**
@@ -8140,6 +8295,29 @@ namespace {
             return \Illuminate\Http\Request::isXmlHttpRequest();
         }
         
+        /**
+         * Register a custom macro.
+         *
+         * @param string $name
+         * @param callable $macro
+         * @return void 
+         * @static 
+         */
+        public static function macro($name, $macro){
+            \Illuminate\Http\Request::macro($name, $macro);
+        }
+        
+        /**
+         * Checks if macro is registered.
+         *
+         * @param string $name
+         * @return bool 
+         * @static 
+         */
+        public static function hasMacro($name){
+            return \Illuminate\Http\Request::hasMacro($name);
+        }
+        
     }
 
 
@@ -8226,6 +8404,18 @@ namespace {
          */
         public static function download($file, $name = null, $headers = array(), $disposition = 'attachment'){
             return \Illuminate\Routing\ResponseFactory::download($file, $name, $headers, $disposition);
+        }
+        
+        /**
+         * Return the raw contents of a binary file.
+         *
+         * @param \SplFileInfo|string $file
+         * @param array $headers
+         * @return \Symfony\Component\HttpFoundation\BinaryFileResponse 
+         * @static 
+         */
+        public static function file($file, $headers = array()){
+            return \Illuminate\Routing\ResponseFactory::file($file, $headers);
         }
         
         /**
@@ -8450,6 +8640,27 @@ namespace {
         }
         
         /**
+         * Set the unmapped global resource parameters to singular.
+         *
+         * @return void 
+         * @static 
+         */
+        public static function singularResourceParameters(){
+            \Illuminate\Routing\Router::singularResourceParameters();
+        }
+        
+        /**
+         * Set the global resource parameter mapping.
+         *
+         * @param array $parameters
+         * @return void 
+         * @static 
+         */
+        public static function resourceParameters($parameters = array()){
+            \Illuminate\Routing\Router::resourceParameters($parameters);
+        }
+        
+        /**
          * Register an array of resource controllers.
          *
          * @param array $resources
@@ -8615,6 +8826,34 @@ namespace {
          */
         public static function middlewareGroup($name, $middleware){
             return \Illuminate\Routing\Router::middlewareGroup($name, $middleware);
+        }
+        
+        /**
+         * Add a middleware to the beginning of a middleware group.
+         * 
+         * If the middleware is already in the group, it will not be added again.
+         *
+         * @param string $group
+         * @param string $middleware
+         * @return $this 
+         * @static 
+         */
+        public static function prependMiddlewareToGroup($group, $middleware){
+            return \Illuminate\Routing\Router::prependMiddlewareToGroup($group, $middleware);
+        }
+        
+        /**
+         * Add a middleware to the end of a middleware group.
+         * 
+         * If the middleware is already in the group, it will not be added again.
+         *
+         * @param string $group
+         * @param string $middleware
+         * @return $this 
+         * @static 
+         */
+        public static function pushMiddlewareToGroup($group, $middleware){
+            return \Illuminate\Routing\Router::pushMiddlewareToGroup($group, $middleware);
         }
         
         /**
@@ -10527,6 +10766,1415 @@ namespace {
     }
 
 
+    class Form extends \Collective\Html\FormFacade{
+        
+        /**
+         * Generate a hidden field with the current CSRF token.
+         *
+         * @return \Illuminate\Support\HtmlString 
+         * @static 
+         */
+        public static function token(){
+            return \Collective\Html\FormBuilder::token();
+        }
+        
+        /**
+         * Create a new model based form builder.
+         *
+         * @param mixed $model
+         * @param array $options
+         * @return string 
+         * @static 
+         */
+        public static function model($model, $options = array()){
+            return \Collective\Html\FormBuilder::model($model, $options);
+        }
+        
+        /**
+         * Set the model instance on the form builder.
+         *
+         * @param mixed $model
+         * @return void 
+         * @static 
+         */
+        public static function setModel($model){
+            \Collective\Html\FormBuilder::setModel($model);
+        }
+        
+        /**
+         * Create a form label element.
+         *
+         * @param string $name
+         * @param string $value
+         * @param array $options
+         * @return \Illuminate\Support\HtmlString 
+         * @static 
+         */
+        public static function label($name, $value = null, $options = array()){
+            return \Collective\Html\FormBuilder::label($name, $value, $options);
+        }
+        
+        /**
+         * Create a HTML reset input element.
+         *
+         * @param string $value
+         * @param array $attributes
+         * @return \Illuminate\Support\HtmlString 
+         * @static 
+         */
+        public static function reset($value, $attributes = array()){
+            return \Collective\Html\FormBuilder::reset($value, $attributes);
+        }
+        
+        /**
+         * Create a hidden input field.
+         *
+         * @param string $name
+         * @param string $value
+         * @param array $options
+         * @return \Illuminate\Support\HtmlString 
+         * @static 
+         */
+        public static function hidden($name, $value = null, $options = array()){
+            return \Collective\Html\FormBuilder::hidden($name, $value, $options);
+        }
+        
+        /**
+         * Create a submit button element.
+         *
+         * @param string $value
+         * @param array $options
+         * @return \Illuminate\Support\HtmlString 
+         * @static 
+         */
+        public static function submit($value = null, $options = array()){
+            return \Collective\Html\FormBuilder::submit($value, $options);
+        }
+        
+        /**
+         * Create a button element.
+         *
+         * @param string $value
+         * @param array $options
+         * @return \Illuminate\Support\HtmlString 
+         * @static 
+         */
+        public static function button($value = null, $options = array()){
+            return \Collective\Html\FormBuilder::button($value, $options);
+        }
+        
+        /**
+         * Get the ID attribute for a field name.
+         *
+         * @param string $name
+         * @param array $attributes
+         * @return string 
+         * @static 
+         */
+        public static function getIdAttribute($name, $attributes){
+            return \Collective\Html\FormBuilder::getIdAttribute($name, $attributes);
+        }
+        
+        /**
+         * Get the value that should be assigned to the field.
+         *
+         * @param string $name
+         * @param string $value
+         * @return string 
+         * @static 
+         */
+        public static function getValueAttribute($name, $value = null){
+            return \Collective\Html\FormBuilder::getValueAttribute($name, $value);
+        }
+        
+        /**
+         * Get html builder.
+         *
+         * @return \Collective\Html\HtmlBuilder 
+         * @static 
+         */
+        public static function getHtmlBuilder(){
+            return \Collective\Html\FormBuilder::getHtmlBuilder();
+        }
+        
+        /**
+         * Register a custom component.
+         *
+         * @param $name
+         * @param $view
+         * @param array $signature
+         * @return void 
+         * @static 
+         */
+        public static function component($name, $view, $signature){
+            \Collective\Html\FormBuilder::component($name, $view, $signature);
+        }
+        
+        /**
+         * Check if a component is registered.
+         *
+         * @param $name
+         * @return bool 
+         * @static 
+         */
+        public static function hasComponent($name){
+            return \Collective\Html\FormBuilder::hasComponent($name);
+        }
+        
+        /**
+         * Dynamically handle calls to the class.
+         *
+         * @param string $method
+         * @param array $parameters
+         * @return \Illuminate\Contracts\View\View|mixed 
+         * @throws \BadMethodCallException
+         * @static 
+         */
+        public static function componentCall($method, $parameters){
+            return \Collective\Html\FormBuilder::componentCall($method, $parameters);
+        }
+        
+        /**
+         * Create a checkbox input field.
+         *
+         * @param string $name
+         * @param mixed $value
+         * @param bool $checked
+         * @param array $options
+         * @return \Illuminate\Support\HtmlString 
+         * @static 
+         */
+        public static function checkbox($name, $value = 1, $checked = null, $options = array()){
+            return \Collective\Html\FormBuilder::checkbox($name, $value, $checked, $options);
+        }
+        
+        /**
+         * Create a radio button input field.
+         *
+         * @param string $name
+         * @param mixed $value
+         * @param bool $checked
+         * @param array $options
+         * @return \Illuminate\Support\HtmlString 
+         * @static 
+         */
+        public static function radio($name, $value = null, $checked = null, $options = array()){
+            return \Collective\Html\FormBuilder::radio($name, $value, $checked, $options);
+        }
+        
+        /**
+         * Open up a new HTML form.
+         *
+         * @param array $options
+         * @return \Illuminate\Support\HtmlString 
+         * @static 
+         */
+        public static function open($options = array()){
+            return \Collective\Html\FormBuilder::open($options);
+        }
+        
+        /**
+         * Close the current form.
+         *
+         * @return \Illuminate\Support\HtmlString 
+         * @static 
+         */
+        public static function close(){
+            return \Collective\Html\FormBuilder::close();
+        }
+        
+        /**
+         * Create a form input field.
+         *
+         * @param string $type
+         * @param string $name
+         * @param string $value
+         * @param array $options
+         * @return \Illuminate\Support\HtmlString 
+         * @static 
+         */
+        public static function input($type, $name, $value = null, $options = array()){
+            return \Collective\Html\FormBuilder::input($type, $name, $value, $options);
+        }
+        
+        /**
+         * Create a text input field.
+         *
+         * @param string $name
+         * @param string $value
+         * @param array $options
+         * @return \Illuminate\Support\HtmlString 
+         * @static 
+         */
+        public static function text($name, $value = null, $options = array()){
+            return \Collective\Html\FormBuilder::text($name, $value, $options);
+        }
+        
+        /**
+         * Create a password input field.
+         *
+         * @param string $name
+         * @param array $options
+         * @return \Illuminate\Support\HtmlString 
+         * @static 
+         */
+        public static function password($name, $options = array()){
+            return \Collective\Html\FormBuilder::password($name, $options);
+        }
+        
+        /**
+         * Create a color input field.
+         *
+         * @param string $name
+         * @param string $value
+         * @param array $options
+         * @return \Illuminate\Support\HtmlString 
+         * @static 
+         */
+        public static function color($name, $value = null, $options = array()){
+            return \Collective\Html\FormBuilder::color($name, $value, $options);
+        }
+        
+        /**
+         * Create an e-mail input field.
+         *
+         * @param string $name
+         * @param string $value
+         * @param array $options
+         * @return \Illuminate\Support\HtmlString 
+         * @static 
+         */
+        public static function email($name, $value = null, $options = array()){
+            return \Collective\Html\FormBuilder::email($name, $value, $options);
+        }
+        
+        /**
+         * Create a tel input field.
+         *
+         * @param string $name
+         * @param string $value
+         * @param array $options
+         * @return \Illuminate\Support\HtmlString 
+         * @static 
+         */
+        public static function tel($name, $value = null, $options = array()){
+            return \Collective\Html\FormBuilder::tel($name, $value, $options);
+        }
+        
+        /**
+         * Create a number input field.
+         *
+         * @param string $name
+         * @param string $value
+         * @param array $options
+         * @return \Illuminate\Support\HtmlString 
+         * @static 
+         */
+        public static function number($name, $value = null, $options = array()){
+            return \Collective\Html\FormBuilder::number($name, $value, $options);
+        }
+        
+        /**
+         * Create a date input field.
+         *
+         * @param string $name
+         * @param string $value
+         * @param array $options
+         * @return \Illuminate\Support\HtmlString 
+         * @static 
+         */
+        public static function date($name, $value = null, $options = array()){
+            return \Collective\Html\FormBuilder::date($name, $value, $options);
+        }
+        
+        /**
+         * Create a datetime input field.
+         *
+         * @param string $name
+         * @param string $value
+         * @param array $options
+         * @return \Illuminate\Support\HtmlString 
+         * @static 
+         */
+        public static function datetime($name, $value = null, $options = array()){
+            return \Collective\Html\FormBuilder::datetime($name, $value, $options);
+        }
+        
+        /**
+         * Create a datetime-local input field.
+         *
+         * @param string $name
+         * @param string $value
+         * @param array $options
+         * @return \Illuminate\Support\HtmlString 
+         * @static 
+         */
+        public static function datetimeLocal($name, $value = null, $options = array()){
+            return \Collective\Html\FormBuilder::datetimeLocal($name, $value, $options);
+        }
+        
+        /**
+         * Create a time input field.
+         *
+         * @param string $name
+         * @param string $value
+         * @param array $options
+         * @return \Illuminate\Support\HtmlString 
+         * @static 
+         */
+        public static function time($name, $value = null, $options = array()){
+            return \Collective\Html\FormBuilder::time($name, $value, $options);
+        }
+        
+        /**
+         * Create a url input field.
+         *
+         * @param string $name
+         * @param string $value
+         * @param array $options
+         * @return \Illuminate\Support\HtmlString 
+         * @static 
+         */
+        public static function url($name, $value = null, $options = array()){
+            return \Collective\Html\FormBuilder::url($name, $value, $options);
+        }
+        
+        /**
+         * Create a file input field.
+         *
+         * @param string $name
+         * @param array $options
+         * @return \Illuminate\Support\HtmlString 
+         * @static 
+         */
+        public static function file($name, $options = array()){
+            return \Collective\Html\FormBuilder::file($name, $options);
+        }
+        
+        /**
+         * Create a HTML image input element.
+         *
+         * @param string $url
+         * @param string $name
+         * @param array $attributes
+         * @return \Illuminate\Support\HtmlString 
+         * @static 
+         */
+        public static function image($url, $name = null, $attributes = array()){
+            return \Collective\Html\FormBuilder::image($url, $name, $attributes);
+        }
+        
+        /**
+         * Create a textarea input field.
+         *
+         * @param string $name
+         * @param string $value
+         * @param array $options
+         * @return \Illuminate\Support\HtmlString 
+         * @static 
+         */
+        public static function textarea($name, $value = null, $options = array()){
+            return \Collective\Html\FormBuilder::textarea($name, $value, $options);
+        }
+        
+        /**
+         * Register a custom macro.
+         *
+         * @param string $name
+         * @param callable $macro
+         * @return void 
+         * @static 
+         */
+        public static function macro($name, $macro){
+            \Collective\Html\FormBuilder::macro($name, $macro);
+        }
+        
+        /**
+         * Checks if macro is registered.
+         *
+         * @param string $name
+         * @return bool 
+         * @static 
+         */
+        public static function hasMacro($name){
+            return \Collective\Html\FormBuilder::hasMacro($name);
+        }
+        
+        /**
+         * Dynamically handle calls to the class.
+         *
+         * @param string $method
+         * @param array $parameters
+         * @return mixed 
+         * @throws \BadMethodCallException
+         * @static 
+         */
+        public static function macroCall($method, $parameters){
+            return \Collective\Html\FormBuilder::macroCall($method, $parameters);
+        }
+        
+        /**
+         * Create a select box field.
+         *
+         * @param string $name
+         * @param array $list
+         * @param string $selected
+         * @param array $options
+         * @return \Illuminate\Support\HtmlString 
+         * @static 
+         */
+        public static function select($name, $list = array(), $selected = null, $options = array()){
+            return \Collective\Html\FormBuilder::select($name, $list, $selected, $options);
+        }
+        
+        /**
+         * Get the select option for the given value.
+         *
+         * @param string $display
+         * @param string $value
+         * @param string $selected
+         * @return \Illuminate\Support\HtmlString 
+         * @static 
+         */
+        public static function getSelectOption($display, $value, $selected){
+            return \Collective\Html\FormBuilder::getSelectOption($display, $value, $selected);
+        }
+        
+        /**
+         * Create a select range field.
+         *
+         * @param string $name
+         * @param string $begin
+         * @param string $end
+         * @param string $selected
+         * @param array $options
+         * @return \Illuminate\Support\HtmlString 
+         * @static 
+         */
+        public static function selectRange($name, $begin, $end, $selected = null, $options = array()){
+            return \Collective\Html\FormBuilder::selectRange($name, $begin, $end, $selected, $options);
+        }
+        
+        /**
+         * Create a select year field.
+         *
+         * @param string $name
+         * @param string $begin
+         * @param string $end
+         * @param string $selected
+         * @param array $options
+         * @return \Illuminate\Support\HtmlString 
+         * @static 
+         */
+        public static function selectYear($name, $begin, $end, $selected = null, $options = array()){
+            return \Collective\Html\FormBuilder::selectYear($name, $begin, $end, $selected, $options);
+        }
+        
+        /**
+         * Create a select month field.
+         *
+         * @param string $name
+         * @param string $selected
+         * @param array $options
+         * @param string $format
+         * @return \Illuminate\Support\HtmlString 
+         * @static 
+         */
+        public static function selectMonth($name, $selected = null, $options = array(), $format = '%B'){
+            return \Collective\Html\FormBuilder::selectMonth($name, $selected, $options, $format);
+        }
+        
+        /**
+         * Get a value from the session's old input.
+         *
+         * @param string $name
+         * @return string 
+         * @static 
+         */
+        public static function old($name){
+            return \Collective\Html\FormBuilder::old($name);
+        }
+        
+        /**
+         * Determine if the old input is empty.
+         *
+         * @return bool 
+         * @static 
+         */
+        public static function oldInputIsEmpty(){
+            return \Collective\Html\FormBuilder::oldInputIsEmpty();
+        }
+        
+        /**
+         * Get the session store implementation.
+         *
+         * @return \Illuminate\Session\Store $session
+         * @static 
+         */
+        public static function getSessionStore(){
+            return \Collective\Html\FormBuilder::getSessionStore();
+        }
+        
+        /**
+         * Set the session store implementation.
+         *
+         * @param \Illuminate\Session\Store $session
+         * @return $this 
+         * @static 
+         */
+        public static function setSessionStore($session){
+            return \Collective\Html\FormBuilder::setSessionStore($session);
+        }
+        
+    }
+
+
+    class HTML extends \Collective\Html\HtmlFacade{
+        
+        /**
+         * Convert an HTML string to entities.
+         *
+         * @param string $value
+         * @return string 
+         * @static 
+         */
+        public static function entities($value){
+            return \Collective\Html\HtmlBuilder::entities($value);
+        }
+        
+        /**
+         * Convert entities to HTML characters.
+         *
+         * @param string $value
+         * @return string 
+         * @static 
+         */
+        public static function decode($value){
+            return \Collective\Html\HtmlBuilder::decode($value);
+        }
+        
+        /**
+         * Generate a link to a JavaScript file.
+         *
+         * @param string $url
+         * @param array $attributes
+         * @param bool $secure
+         * @return \Illuminate\Support\HtmlString 
+         * @static 
+         */
+        public static function script($url, $attributes = array(), $secure = null){
+            return \Collective\Html\HtmlBuilder::script($url, $attributes, $secure);
+        }
+        
+        /**
+         * Generate a link to a CSS file.
+         *
+         * @param string $url
+         * @param array $attributes
+         * @param bool $secure
+         * @return \Illuminate\Support\HtmlString 
+         * @static 
+         */
+        public static function style($url, $attributes = array(), $secure = null){
+            return \Collective\Html\HtmlBuilder::style($url, $attributes, $secure);
+        }
+        
+        /**
+         * Generate an HTML image element.
+         *
+         * @param string $url
+         * @param string $alt
+         * @param array $attributes
+         * @param bool $secure
+         * @return \Illuminate\Support\HtmlString 
+         * @static 
+         */
+        public static function image($url, $alt = null, $attributes = array(), $secure = null){
+            return \Collective\Html\HtmlBuilder::image($url, $alt, $attributes, $secure);
+        }
+        
+        /**
+         * Generate a link to a Favicon file.
+         *
+         * @param string $url
+         * @param array $attributes
+         * @param bool $secure
+         * @return \Illuminate\Support\HtmlString 
+         * @static 
+         */
+        public static function favicon($url, $attributes = array(), $secure = null){
+            return \Collective\Html\HtmlBuilder::favicon($url, $attributes, $secure);
+        }
+        
+        /**
+         * Generate a HTML link.
+         *
+         * @param string $url
+         * @param string $title
+         * @param array $attributes
+         * @param bool $secure
+         * @return \Illuminate\Support\HtmlString 
+         * @static 
+         */
+        public static function link($url, $title = null, $attributes = array(), $secure = null){
+            return \Collective\Html\HtmlBuilder::link($url, $title, $attributes, $secure);
+        }
+        
+        /**
+         * Generate a HTTPS HTML link.
+         *
+         * @param string $url
+         * @param string $title
+         * @param array $attributes
+         * @return \Illuminate\Support\HtmlString 
+         * @static 
+         */
+        public static function secureLink($url, $title = null, $attributes = array()){
+            return \Collective\Html\HtmlBuilder::secureLink($url, $title, $attributes);
+        }
+        
+        /**
+         * Generate a HTML link to an asset.
+         *
+         * @param string $url
+         * @param string $title
+         * @param array $attributes
+         * @param bool $secure
+         * @return \Illuminate\Support\HtmlString 
+         * @static 
+         */
+        public static function linkAsset($url, $title = null, $attributes = array(), $secure = null){
+            return \Collective\Html\HtmlBuilder::linkAsset($url, $title, $attributes, $secure);
+        }
+        
+        /**
+         * Generate a HTTPS HTML link to an asset.
+         *
+         * @param string $url
+         * @param string $title
+         * @param array $attributes
+         * @return \Illuminate\Support\HtmlString 
+         * @static 
+         */
+        public static function linkSecureAsset($url, $title = null, $attributes = array()){
+            return \Collective\Html\HtmlBuilder::linkSecureAsset($url, $title, $attributes);
+        }
+        
+        /**
+         * Generate a HTML link to a named route.
+         *
+         * @param string $name
+         * @param string $title
+         * @param array $parameters
+         * @param array $attributes
+         * @return \Illuminate\Support\HtmlString 
+         * @static 
+         */
+        public static function linkRoute($name, $title = null, $parameters = array(), $attributes = array()){
+            return \Collective\Html\HtmlBuilder::linkRoute($name, $title, $parameters, $attributes);
+        }
+        
+        /**
+         * Generate a HTML link to a controller action.
+         *
+         * @param string $action
+         * @param string $title
+         * @param array $parameters
+         * @param array $attributes
+         * @return \Illuminate\Support\HtmlString 
+         * @static 
+         */
+        public static function linkAction($action, $title = null, $parameters = array(), $attributes = array()){
+            return \Collective\Html\HtmlBuilder::linkAction($action, $title, $parameters, $attributes);
+        }
+        
+        /**
+         * Generate a HTML link to an email address.
+         *
+         * @param string $email
+         * @param string $title
+         * @param array $attributes
+         * @return \Illuminate\Support\HtmlString 
+         * @static 
+         */
+        public static function mailto($email, $title = null, $attributes = array()){
+            return \Collective\Html\HtmlBuilder::mailto($email, $title, $attributes);
+        }
+        
+        /**
+         * Obfuscate an e-mail address to prevent spam-bots from sniffing it.
+         *
+         * @param string $email
+         * @return string 
+         * @static 
+         */
+        public static function email($email){
+            return \Collective\Html\HtmlBuilder::email($email);
+        }
+        
+        /**
+         * Generate an ordered list of items.
+         *
+         * @param array $list
+         * @param array $attributes
+         * @return \Illuminate\Support\HtmlString|string 
+         * @static 
+         */
+        public static function ol($list, $attributes = array()){
+            return \Collective\Html\HtmlBuilder::ol($list, $attributes);
+        }
+        
+        /**
+         * Generate an un-ordered list of items.
+         *
+         * @param array $list
+         * @param array $attributes
+         * @return \Illuminate\Support\HtmlString|string 
+         * @static 
+         */
+        public static function ul($list, $attributes = array()){
+            return \Collective\Html\HtmlBuilder::ul($list, $attributes);
+        }
+        
+        /**
+         * Generate a description list of items.
+         *
+         * @param array $list
+         * @param array $attributes
+         * @return \Illuminate\Support\HtmlString 
+         * @static 
+         */
+        public static function dl($list, $attributes = array()){
+            return \Collective\Html\HtmlBuilder::dl($list, $attributes);
+        }
+        
+        /**
+         * Build an HTML attribute string from an array.
+         *
+         * @param array $attributes
+         * @return string 
+         * @static 
+         */
+        public static function attributes($attributes){
+            return \Collective\Html\HtmlBuilder::attributes($attributes);
+        }
+        
+        /**
+         * Generate a meta tag.
+         *
+         * @param string $name
+         * @param string $content
+         * @param array $attributes
+         * @return \Illuminate\Support\HtmlString 
+         * @static 
+         */
+        public static function meta($name, $content, $attributes = array()){
+            return \Collective\Html\HtmlBuilder::meta($name, $content, $attributes);
+        }
+        
+        /**
+         * Generate an html tag.
+         *
+         * @param string $tag
+         * @param mixed $content
+         * @param array $attributes
+         * @return \Illuminate\Support\HtmlString 
+         * @static 
+         */
+        public static function tag($tag, $content, $attributes = array()){
+            return \Collective\Html\HtmlBuilder::tag($tag, $content, $attributes);
+        }
+        
+        /**
+         * Register a custom component.
+         *
+         * @param $name
+         * @param $view
+         * @param array $signature
+         * @return void 
+         * @static 
+         */
+        public static function component($name, $view, $signature){
+            \Collective\Html\HtmlBuilder::component($name, $view, $signature);
+        }
+        
+        /**
+         * Check if a component is registered.
+         *
+         * @param $name
+         * @return bool 
+         * @static 
+         */
+        public static function hasComponent($name){
+            return \Collective\Html\HtmlBuilder::hasComponent($name);
+        }
+        
+        /**
+         * Dynamically handle calls to the class.
+         *
+         * @param string $method
+         * @param array $parameters
+         * @return \Illuminate\Contracts\View\View|mixed 
+         * @throws \BadMethodCallException
+         * @static 
+         */
+        public static function componentCall($method, $parameters){
+            return \Collective\Html\HtmlBuilder::componentCall($method, $parameters);
+        }
+        
+        /**
+         * Register a custom macro.
+         *
+         * @param string $name
+         * @param callable $macro
+         * @return void 
+         * @static 
+         */
+        public static function macro($name, $macro){
+            \Collective\Html\HtmlBuilder::macro($name, $macro);
+        }
+        
+        /**
+         * Checks if macro is registered.
+         *
+         * @param string $name
+         * @return bool 
+         * @static 
+         */
+        public static function hasMacro($name){
+            return \Collective\Html\HtmlBuilder::hasMacro($name);
+        }
+        
+        /**
+         * Dynamically handle calls to the class.
+         *
+         * @param string $method
+         * @param array $parameters
+         * @return mixed 
+         * @throws \BadMethodCallException
+         * @static 
+         */
+        public static function macroCall($method, $parameters){
+            return \Collective\Html\HtmlBuilder::macroCall($method, $parameters);
+        }
+        
+        /**
+         * Obfuscate a string to prevent spam-bots from sniffing it.
+         *
+         * @param string $value
+         * @return string 
+         * @static 
+         */
+        public static function obfuscate($value){
+            return \Collective\Html\HtmlBuilder::obfuscate($value);
+        }
+        
+    }
+
+
+    class BootForm extends \Watson\BootstrapForm\Facades\BootstrapForm{
+        
+        /**
+         * Open a form while passing a model and the routes for storing or updating
+         * the model. This will set the correct route along with the correct
+         * method.
+         *
+         * @param array $options
+         * @return string 
+         * @static 
+         */
+        public static function open($options = array()){
+            return \Watson\BootstrapForm\BootstrapForm::open($options);
+        }
+        
+        /**
+         * Reset and close the form.
+         *
+         * @return string 
+         * @static 
+         */
+        public static function close(){
+            return \Watson\BootstrapForm\BootstrapForm::close();
+        }
+        
+        /**
+         * Open a vertical (standard) Bootstrap form.
+         *
+         * @param array $options
+         * @return string 
+         * @static 
+         */
+        public static function vertical($options = array()){
+            return \Watson\BootstrapForm\BootstrapForm::vertical($options);
+        }
+        
+        /**
+         * Open an inline Bootstrap form.
+         *
+         * @param array $options
+         * @return string 
+         * @static 
+         */
+        public static function inline($options = array()){
+            return \Watson\BootstrapForm\BootstrapForm::inline($options);
+        }
+        
+        /**
+         * Open a horizontal Bootstrap form.
+         *
+         * @param array $options
+         * @return string 
+         * @static 
+         */
+        public static function horizontal($options = array()){
+            return \Watson\BootstrapForm\BootstrapForm::horizontal($options);
+        }
+        
+        /**
+         * Create a Bootstrap static field.
+         *
+         * @param string $name
+         * @param string $label
+         * @param string $value
+         * @param array $options
+         * @return string 
+         * @static 
+         */
+        public static function staticField($name, $label = null, $value = null, $options = array()){
+            return \Watson\BootstrapForm\BootstrapForm::staticField($name, $label, $value, $options);
+        }
+        
+        /**
+         * Create a Bootstrap text field input.
+         *
+         * @param string $name
+         * @param string $label
+         * @param string $value
+         * @param array $options
+         * @return string 
+         * @static 
+         */
+        public static function text($name, $label = null, $value = null, $options = array()){
+            return \Watson\BootstrapForm\BootstrapForm::text($name, $label, $value, $options);
+        }
+        
+        /**
+         * Create a Bootstrap email field input.
+         *
+         * @param string $name
+         * @param string $label
+         * @param string $value
+         * @param array $options
+         * @return string 
+         * @static 
+         */
+        public static function email($name = 'email', $label = null, $value = null, $options = array()){
+            return \Watson\BootstrapForm\BootstrapForm::email($name, $label, $value, $options);
+        }
+        
+        /**
+         * Create a Bootstrap URL field input.
+         *
+         * @param string $name
+         * @param string $label
+         * @param string $value
+         * @param array $options
+         * @return string 
+         * @static 
+         */
+        public static function url($name, $label = null, $value = null, $options = array()){
+            return \Watson\BootstrapForm\BootstrapForm::url($name, $label, $value, $options);
+        }
+        
+        /**
+         * Create a Bootstrap tel field input.
+         *
+         * @param string $name
+         * @param string $label
+         * @param string $value
+         * @param array $options
+         * @return string 
+         * @static 
+         */
+        public static function tel($name, $label = null, $value = null, $options = array()){
+            return \Watson\BootstrapForm\BootstrapForm::tel($name, $label, $value, $options);
+        }
+        
+        /**
+         * Create a Bootstrap number field input.
+         *
+         * @param string $name
+         * @param string $label
+         * @param string $value
+         * @param array $options
+         * @return string 
+         * @static 
+         */
+        public static function number($name, $label = null, $value = null, $options = array()){
+            return \Watson\BootstrapForm\BootstrapForm::number($name, $label, $value, $options);
+        }
+        
+        /**
+         * Create a Bootstrap date field input.
+         *
+         * @param string $name
+         * @param string $label
+         * @param string $value
+         * @param array $options
+         * @return string 
+         * @static 
+         */
+        public static function date($name, $label = null, $value = null, $options = array()){
+            return \Watson\BootstrapForm\BootstrapForm::date($name, $label, $value, $options);
+        }
+        
+        /**
+         * Create a Bootstrap textarea field input.
+         *
+         * @param string $name
+         * @param string $label
+         * @param string $value
+         * @param array $options
+         * @return string 
+         * @static 
+         */
+        public static function textarea($name, $label = null, $value = null, $options = array()){
+            return \Watson\BootstrapForm\BootstrapForm::textarea($name, $label, $value, $options);
+        }
+        
+        /**
+         * Create a Bootstrap password field input.
+         *
+         * @param string $name
+         * @param string $label
+         * @param array $options
+         * @return string 
+         * @static 
+         */
+        public static function password($name = 'password', $label = null, $options = array()){
+            return \Watson\BootstrapForm\BootstrapForm::password($name, $label, $options);
+        }
+        
+        /**
+         * Create a Bootstrap checkbox input.
+         *
+         * @param string $name
+         * @param string $label
+         * @param string $value
+         * @param bool $checked
+         * @param array $options
+         * @return string 
+         * @static 
+         */
+        public static function checkbox($name, $label = null, $value = 1, $checked = null, $options = array()){
+            return \Watson\BootstrapForm\BootstrapForm::checkbox($name, $label, $value, $checked, $options);
+        }
+        
+        /**
+         * Create a single Bootstrap checkbox element.
+         *
+         * @param string $name
+         * @param string $label
+         * @param string $value
+         * @param bool $checked
+         * @param bool $inline
+         * @param array $options
+         * @return string 
+         * @static 
+         */
+        public static function checkboxElement($name, $label = null, $value = 1, $checked = null, $inline = false, $options = array()){
+            return \Watson\BootstrapForm\BootstrapForm::checkboxElement($name, $label, $value, $checked, $inline, $options);
+        }
+        
+        /**
+         * Create a collection of Bootstrap checkboxes.
+         *
+         * @param string $name
+         * @param string $label
+         * @param array $choices
+         * @param array $checkedValues
+         * @param bool $inline
+         * @param array $options
+         * @return string 
+         * @static 
+         */
+        public static function checkboxes($name, $label = null, $choices = array(), $checkedValues = array(), $inline = false, $options = array()){
+            return \Watson\BootstrapForm\BootstrapForm::checkboxes($name, $label, $choices, $checkedValues, $inline, $options);
+        }
+        
+        /**
+         * Create a Bootstrap radio input.
+         *
+         * @param string $name
+         * @param string $label
+         * @param string $value
+         * @param bool $checked
+         * @param array $options
+         * @return string 
+         * @static 
+         */
+        public static function radio($name, $label = null, $value = null, $checked = null, $options = array()){
+            return \Watson\BootstrapForm\BootstrapForm::radio($name, $label, $value, $checked, $options);
+        }
+        
+        /**
+         * Create a single Bootstrap radio input.
+         *
+         * @param string $name
+         * @param string $label
+         * @param string $value
+         * @param bool $checked
+         * @param bool $inline
+         * @param array $options
+         * @return string 
+         * @static 
+         */
+        public static function radioElement($name, $label = null, $value = null, $checked = null, $inline = false, $options = array()){
+            return \Watson\BootstrapForm\BootstrapForm::radioElement($name, $label, $value, $checked, $inline, $options);
+        }
+        
+        /**
+         * Create a collection of Bootstrap radio inputs.
+         *
+         * @param string $name
+         * @param string $label
+         * @param array $choices
+         * @param string $checkedValue
+         * @param bool $inline
+         * @param array $options
+         * @return string 
+         * @static 
+         */
+        public static function radios($name, $label = null, $choices = array(), $checkedValue = null, $inline = false, $options = array()){
+            return \Watson\BootstrapForm\BootstrapForm::radios($name, $label, $choices, $checkedValue, $inline, $options);
+        }
+        
+        /**
+         * Create a Bootstrap label.
+         *
+         * @param string $name
+         * @param string $value
+         * @param array $options
+         * @return string 
+         * @static 
+         */
+        public static function label($name, $value = null, $options = array()){
+            return \Watson\BootstrapForm\BootstrapForm::label($name, $value, $options);
+        }
+        
+        /**
+         * Create a Boostrap submit button.
+         *
+         * @param string $value
+         * @param array $options
+         * @return string 
+         * @static 
+         */
+        public static function submit($value = null, $options = array()){
+            return \Watson\BootstrapForm\BootstrapForm::submit($value, $options);
+        }
+        
+        /**
+         * Create a Boostrap file upload button.
+         *
+         * @param string $name
+         * @param string $label
+         * @param array $options
+         * @return string 
+         * @static 
+         */
+        public static function file($name, $label = null, $options = array()){
+            return \Watson\BootstrapForm\BootstrapForm::file($name, $label, $options);
+        }
+        
+        /**
+         * Create the input group for an element with the correct classes for errors.
+         *
+         * @param string $type
+         * @param string $name
+         * @param string $label
+         * @param string $value
+         * @param array $options
+         * @return string 
+         * @static 
+         */
+        public static function input($type, $name, $label = null, $value = null, $options = array()){
+            return \Watson\BootstrapForm\BootstrapForm::input($type, $name, $label, $value, $options);
+        }
+        
+        /**
+         * Create a hidden field.
+         *
+         * @param string $name
+         * @param string $value
+         * @param array $options
+         * @return string 
+         * @static 
+         */
+        public static function hidden($name, $value = null, $options = array()){
+            return \Watson\BootstrapForm\BootstrapForm::hidden($name, $value, $options);
+        }
+        
+        /**
+         * Create a select box field.
+         *
+         * @param string $name
+         * @param string $label
+         * @param array $list
+         * @param string $selected
+         * @param array $options
+         * @return string 
+         * @static 
+         */
+        public static function select($name, $label = null, $list = array(), $selected = null, $options = array()){
+            return \Watson\BootstrapForm\BootstrapForm::select($name, $label, $list, $selected, $options);
+        }
+        
+        /**
+         * Get a form group.
+         *
+         * @param string $name
+         * @param string $element
+         * @return string 
+         * @static 
+         */
+        public static function getFormGroup($name, $element){
+            return \Watson\BootstrapForm\BootstrapForm::getFormGroup($name, $element);
+        }
+        
+        /**
+         * Get the form type.
+         *
+         * @return string 
+         * @static 
+         */
+        public static function getType(){
+            return \Watson\BootstrapForm\BootstrapForm::getType();
+        }
+        
+        /**
+         * Determine if the form is of a horizontal type.
+         *
+         * @return bool 
+         * @static 
+         */
+        public static function isHorizontal(){
+            return \Watson\BootstrapForm\BootstrapForm::isHorizontal();
+        }
+        
+        /**
+         * Set the form type.
+         *
+         * @param string $type
+         * @return void 
+         * @static 
+         */
+        public static function setType($type){
+            \Watson\BootstrapForm\BootstrapForm::setType($type);
+        }
+        
+        /**
+         * Get the column class for the left column of a horizontal form.
+         *
+         * @return string 
+         * @static 
+         */
+        public static function getLeftColumnClass(){
+            return \Watson\BootstrapForm\BootstrapForm::getLeftColumnClass();
+        }
+        
+        /**
+         * Set the column class for the left column of a horizontal form.
+         *
+         * @param string $class
+         * @return void 
+         * @static 
+         */
+        public static function setLeftColumnClass($class){
+            \Watson\BootstrapForm\BootstrapForm::setLeftColumnClass($class);
+        }
+        
+        /**
+         * Get the column class for the left column offset of a horizontal form.
+         *
+         * @return string 
+         * @static 
+         */
+        public static function getLeftColumnOffsetClass(){
+            return \Watson\BootstrapForm\BootstrapForm::getLeftColumnOffsetClass();
+        }
+        
+        /**
+         * Set the column class for the left column offset of a horizontal form.
+         *
+         * @param string $class
+         * @return void 
+         * @static 
+         */
+        public static function setLeftColumnOffsetClass($class){
+            \Watson\BootstrapForm\BootstrapForm::setLeftColumnOffsetClass($class);
+        }
+        
+        /**
+         * Get the column class for the right column of a horizontal form.
+         *
+         * @return string 
+         * @static 
+         */
+        public static function getRightColumnClass(){
+            return \Watson\BootstrapForm\BootstrapForm::getRightColumnClass();
+        }
+        
+        /**
+         * Set the column class for the right column of a horizontal form.
+         *
+         * @param string $lcass
+         * @return void 
+         * @static 
+         */
+        public static function setRightColumnClass($class){
+            \Watson\BootstrapForm\BootstrapForm::setRightColumnClass($class);
+        }
+        
+        /**
+         * Flatten arrayed field names to work with the validator, including removing "[]",
+         * and converting nested arrays like "foo[bar][baz]" to "foo.bar.baz".
+         *
+         * @param string $field
+         * @return string 
+         * @static 
+         */
+        public static function flattenFieldName($field){
+            return \Watson\BootstrapForm\BootstrapForm::flattenFieldName($field);
+        }
+        
+    }
+
+
+    class Asset extends \Orchestra\Support\Facades\Asset{
+        
+        /**
+         * Get an asset container instance.
+         * 
+         * <code>
+         *     // Get the default asset container
+         *     $container = Orchestra\Asset::container();
+         * 
+         *     // Get a named asset container
+         *     $container = Orchestra\Asset::container('footer');
+         * </code>
+         *
+         * @param string $container
+         * @return \Orchestra\Asset\Asset 
+         * @static 
+         */
+        public static function container($container = 'default'){
+            return \Orchestra\Asset\Factory::container($container);
+        }
+        
+    }
+
+
     class Option extends \Polyether\Option\OptionFacade{
         
         /**
@@ -10543,8 +12191,8 @@ namespace {
          *
          * @static 
          */
-        public static function get($name){
-            return \Polyether\Option\OptionAPI::get($name);
+        public static function get($name, $default = false){
+            return \Polyether\Option\OptionAPI::get($name, $default);
         }
         
         /**
@@ -10868,6 +12516,122 @@ namespace {
     }
 
 
+    class UserGate extends \Polyether\User\UserGateFacade{
+        
+        /**
+         * 
+         *
+         * @static 
+         */
+        public static function create($userArr){
+            return \Polyether\User\UserGate::create($userArr);
+        }
+        
+    }
+
+
+    class Entrust extends \Polyether\Entrust\EntrustFacade{
+        
+        /**
+         * Check if the current user has a role or permission by its name
+         *
+         * @param array|string $roles The role(s) needed.
+         * @param array|string $permissions The permission(s) needed.
+         * @param array $options The Options.
+         * @return bool 
+         * @static 
+         */
+        public static function ability($roles, $permissions, $options = array()){
+            return \Polyether\Entrust\Entrust::ability($roles, $permissions, $options);
+        }
+        
+        /**
+         * Get the currently authenticated user or null.
+         *
+         * @return \Polyether\Entrust\Illuminate\Auth\UserInterface|null 
+         * @static 
+         */
+        public static function user(){
+            return \Polyether\Entrust\Entrust::user();
+        }
+        
+        /**
+         * Filters a route for a role or set of roles.
+         * 
+         * If the third parameter is null then abort with status code 403.
+         * Otherwise the $result is returned.
+         *
+         * @param string $route Route pattern. i.e: "admin/*"
+         * @param array|string $roles The role(s) needed
+         * @param mixed $result i.e: Redirect::to('/')
+         * @param bool $requireAll User must have all roles
+         * @return mixed 
+         * @static 
+         */
+        public static function routeNeedsRole($route, $roles, $result = null, $requireAll = true){
+            return \Polyether\Entrust\Entrust::routeNeedsRole($route, $roles, $result, $requireAll);
+        }
+        
+        /**
+         * Checks if the current user has a role by its name
+         *
+         * @param string $name Role name.
+         * @return bool 
+         * @static 
+         */
+        public static function hasRole($role, $requireAll = false){
+            return \Polyether\Entrust\Entrust::hasRole($role, $requireAll);
+        }
+        
+        /**
+         * Filters a route for a permission or set of permissions.
+         * 
+         * If the third parameter is null then abort with status code 403.
+         * Otherwise the $result is returned.
+         *
+         * @param string $route Route pattern. i.e: "admin/*"
+         * @param array|string $permissions The permission(s) needed
+         * @param mixed $result i.e: Redirect::to('/')
+         * @param bool $requireAll User must have all permissions
+         * @return mixed 
+         * @static 
+         */
+        public static function routeNeedsPermission($route, $permissions, $result = null, $requireAll = true){
+            return \Polyether\Entrust\Entrust::routeNeedsPermission($route, $permissions, $result, $requireAll);
+        }
+        
+        /**
+         * Check if the current user has a permission by its name
+         *
+         * @param string $permission Permission string.
+         * @return bool 
+         * @static 
+         */
+        public static function can($permission, $requireAll = false){
+            return \Polyether\Entrust\Entrust::can($permission, $requireAll);
+        }
+        
+        /**
+         * Filters a route for role(s) and/or permission(s).
+         * 
+         * If the third parameter is null then abort with status code 403.
+         * Otherwise the $result is returned.
+         *
+         * @param string $route Route pattern. i.e: "admin/*"
+         * @param array|string $roles The role(s) needed
+         * @param array|string $permissions The permission(s) needed
+         * @param mixed $result i.e: Redirect::to('/')
+         * @param bool $requireAll User must have all roles and permissions
+         * @return void 
+         * @static 
+         */
+        public static function routeNeedsRoleOrPermission($route, $roles, $permissions, $result = null, $requireAll = false){
+            \Polyether\Entrust\Entrust::routeNeedsRoleOrPermission($route, $roles, $permissions, $result, $requireAll);
+        }
+        
+    }
+
+
     class Taxonomy extends \Polyether\Taxonomy\TaxonomyFacade{
         
         /**
@@ -10875,8 +12639,21 @@ namespace {
          *
          * @static 
          */
-        public static function register_taxonomy($taxonomy, $object_type, $args = array()){
-            return \Polyether\Taxonomy\Taxonomy::register_taxonomy($taxonomy, $object_type, $args);
+        public static function registerDefaultTaxonomies(){
+            return \Polyether\Taxonomy\Taxonomy::registerDefaultTaxonomies();
+        }
+        
+        /**
+         * 
+         *
+         * @param string $taxonomy
+         * @param string|array $object_type
+         * @param array $args
+         * @return \Polyether\Support\EtherError 
+         * @static 
+         */
+        public static function registerTaxonomy($taxonomy, $object_type, $args = array()){
+            return \Polyether\Taxonomy\Taxonomy::registerTaxonomy($taxonomy, $object_type, $args);
         }
         
         /**
@@ -10884,8 +12661,8 @@ namespace {
          *
          * @static 
          */
-        public static function unregister_taxonomy($taxonomy){
-            return \Polyether\Taxonomy\Taxonomy::unregister_taxonomy($taxonomy);
+        public static function unregisterTaxonomy($taxonomy){
+            return \Polyether\Taxonomy\Taxonomy::unregisterTaxonomy($taxonomy);
         }
         
         /**
@@ -10893,8 +12670,8 @@ namespace {
          *
          * @static 
          */
-        public static function register_taxonomy_for_object_type($taxonomy, $object_type){
-            return \Polyether\Taxonomy\Taxonomy::register_taxonomy_for_object_type($taxonomy, $object_type);
+        public static function registerTaxonomyForObjectType($taxonomy, $object_type){
+            return \Polyether\Taxonomy\Taxonomy::registerTaxonomyForObjectType($taxonomy, $object_type);
         }
         
         /**
@@ -10902,8 +12679,8 @@ namespace {
          *
          * @static 
          */
-        public static function taxonomy_exists($taxonomy){
-            return \Polyether\Taxonomy\Taxonomy::taxonomy_exists($taxonomy);
+        public static function getTaxonomies(){
+            return \Polyether\Taxonomy\Taxonomy::getTaxonomies();
         }
         
         /**
@@ -10911,8 +12688,124 @@ namespace {
          *
          * @static 
          */
-        public static function get_taxonomies(){
-            return \Polyether\Taxonomy\Taxonomy::get_taxonomies();
+        public static function UITerms($args = array()){
+            return \Polyether\Taxonomy\Taxonomy::UITerms($args);
+        }
+        
+        /**
+         * 
+         *
+         * @static 
+         */
+        public static function getHierarchicalTerms($taxonomy, $parent = null, $args = array()){
+            return \Polyether\Taxonomy\Taxonomy::getHierarchicalTerms($taxonomy, $parent, $args);
+        }
+        
+        /**
+         * 
+         *
+         * @static 
+         */
+        public static function getTermsByTaxonomy($taxonomy, $args = array()){
+            return \Polyether\Taxonomy\Taxonomy::getTermsByTaxonomy($taxonomy, $args);
+        }
+        
+        /**
+         * 
+         *
+         * @static 
+         */
+        public static function taxonomyExists($taxonomy){
+            return \Polyether\Taxonomy\Taxonomy::taxonomyExists($taxonomy);
+        }
+        
+        /**
+         * 
+         *
+         * @static 
+         */
+        public static function isTaxonomyHierarchical($taxonomy){
+            return \Polyether\Taxonomy\Taxonomy::isTaxonomyHierarchical($taxonomy);
+        }
+        
+        /**
+         * 
+         *
+         * @static 
+         */
+        public static function getTaxonomy($taxonomy){
+            return \Polyether\Taxonomy\Taxonomy::getTaxonomy($taxonomy);
+        }
+        
+        /**
+         * 
+         *
+         * @static 
+         */
+        public static function setObjectTerms($objectId, $terms, $taxonomy, $append = false){
+            return \Polyether\Taxonomy\Taxonomy::setObjectTerms($objectId, $terms, $taxonomy, $append);
+        }
+        
+        /**
+         * 
+         *
+         * @param int|string $term
+         * @param string $taxonomy
+         * @param null|int $parent
+         * @return false|array 
+         * @static 
+         */
+        public static function termExists($term, $taxonomy = '', $parent = null){
+            return \Polyether\Taxonomy\Taxonomy::termExists($term, $taxonomy, $parent);
+        }
+        
+        /**
+         * 
+         *
+         * @param int|string $term
+         * @param string $taxonomy
+         * @param array $args
+         * @return false|\Polyether\Taxonomy\Collection|\Polyether\Support\EtherError 
+         * @static 
+         */
+        public static function createTerm($term, $taxonomy, $args = array()){
+            return \Polyether\Taxonomy\Taxonomy::createTerm($term, $taxonomy, $args);
+        }
+        
+        /**
+         * 
+         *
+         * @static 
+         */
+        public static function updateTermCount($termTaxonomyIds){
+            return \Polyether\Taxonomy\Taxonomy::updateTermCount($termTaxonomyIds);
+        }
+        
+        /**
+         * 
+         *
+         * @static 
+         */
+        public static function termNotAssignedToAnyTaxonomy($term_id){
+            return \Polyether\Taxonomy\Taxonomy::termNotAssignedToAnyTaxonomy($term_id);
+        }
+        
+        /**
+         * 
+         *
+         * @static 
+         */
+        public static function getObjectTerms($objectIds, $taxonomies, $args = array()){
+            return \Polyether\Taxonomy\Taxonomy::getObjectTerms($objectIds, $taxonomies, $args);
+        }
+        
+        /**
+         * 
+         *
+         * @static 
+         */
+        public static function removeObjectTerms($objectIds, $taxonomies, $args = array()){
+            return \Polyether\Taxonomy\Taxonomy::removeObjectTerms($objectIds, $taxonomies, $args);
         }
         
     }
@@ -10921,12 +12814,102 @@ namespace {
     class Post extends \Polyether\Post\PostFacade{
         
         /**
-         * 
+         * Registering initial post types
          *
+         * @return \Polyether\Post\void; 
          * @static 
          */
-        public static function register_post_type($post_type, $args = array()){
-            return \Polyether\Post\Post::register_post_type($post_type, $args);
+        public static function registerDefaultPostTypes(){
+            return \Polyether\Post\Post::registerDefaultPostTypes();
+        }
+        
+        /**
+         * Register A Post Type
+         *
+         * @param string $post_type
+         * @param array $args
+         * @return void|\Polyether\Post\EtherError 
+         * @static 
+         */
+        public static function registerPostType($post_type, $args = array()){
+            return \Polyether\Post\Post::registerPostType($post_type, $args);
+        }
+        
+        /**
+         * Check of post type object exists
+         *
+         * @param string $post_type
+         * @return bool 
+         * @static 
+         */
+        public static function postTypeObjectExists($post_type){
+            return \Polyether\Post\Post::postTypeObjectExists($post_type);
+        }
+        
+        /**
+         * Returns the registered post type object
+         *
+         * @param string $post_type
+         * @return false|\stdClass 
+         * @static 
+         */
+        public static function getPostTypeObject($post_type){
+            return \Polyether\Post\Post::getPostTypeObject($post_type);
+        }
+        
+        /**
+         * 
+         *
+         * @return array 
+         * @static 
+         */
+        public static function getPostTypes(){
+            return \Polyether\Post\Post::getPostTypes();
+        }
+        
+        /**
+         * Inserts a new post and return the post id
+         *
+         * @param array $postArr
+         * @return integer|\Polyether\Post\EtherError|null 
+         * @static 
+         */
+        public static function create($postArr){
+            return \Polyether\Post\Post::create($postArr);
+        }
+        
+        /**
+         * 
+         *
+         * @param $postId
+         * @param $postArr
+         * @return integer|\Polyether\Post\EtherError|null 
+         * @static 
+         */
+        public static function update($postId, $postArr){
+            return \Polyether\Post\Post::update($postId, $postArr);
+        }
+        
+        /**
+         * Find a post object by id
+         *
+         * @param integer $post_id
+         * @return \Illuminate\Support\Collection|null 
+         * @static 
+         */
+        public static function find($post_id){
+            return \Polyether\Post\Post::find($post_id);
+        }
+        
+        /**
+         * 
+         *
+         * @param array $args
+         * @return \Polyether\Post\Collection|\Polyether\Support\EtherError 
+         * @static 
+         */
+        public static function query($args = array()){
+            return \Polyether\Post\Post::query($args);
         }
         
         /**
@@ -10934,8 +12917,54 @@ namespace {
          *
          * @static 
          */
-        public static function post_type_object_exists($post_type){
-            return \Polyether\Post\Post::post_type_object_exists($post_type);
+        public static function postStatusUpdated($postId, $newStatus){
+            return \Polyether\Post\Post::postStatusUpdated($postId, $newStatus);
+        }
+        
+    }
+
+
+    class Backend extends \Polyether\Backend\BackendFacade{
+        
+        /**
+         * 
+         *
+         * @static 
+         */
+        public static function onBoot(){
+            return \Polyether\Backend\Backend::onBoot();
+        }
+        
+        /**
+         * 
+         *
+         * @param string $slug
+         * @param string $title
+         * @param array $permissions
+         * @param null|string $link
+         * @param null|string $icon
+         * @param null|integer $position
+         * @return bool|string 
+         * @static 
+         */
+        public static function registerMenuPage($slug, $title, $permissions, $link = null, $icon = null, $position = null){
+            return \Polyether\Backend\Backend::registerMenuPage($slug, $title, $permissions, $link, $icon, $position);
+        }
+        
+        /**
+         * 
+         *
+         * @param string $slug
+         * @param string $parent_slug
+         * @param string $title
+         * @param null|array $permissions
+         * @param null|string $link
+         * @param null|string $icon
+         * @return bool|string 
+         * @static 
+         */
+        public static function registerMenuSubPage($slug, $parent_slug, $title, $permissions = null, $link = null, $icon = null){
+            return \Polyether\Backend\Backend::registerMenuSubPage($slug, $parent_slug, $title, $permissions, $link, $icon);
         }
         
         /**
@@ -10943,9 +12972,32 @@ namespace {
          *
          * @static 
          */
-        public static function get_post_type_object($post_type){
-            return \Polyether\Post\Post::get_post_type_object($post_type);
+        public static function getMenuPage($slug){
+            return \Polyether\Backend\Backend::getMenuPage($slug);
         }
+        
+        /**
+         * 
+         *
+         * @static 
+         */
+        public static function getBackendMenu(){
+            return \Polyether\Backend\Backend::getBackendMenu();
+        }
+        
+        /**
+         * 
+         *
+         * @static 
+         */
+        public static function currentUserCanSeeLink($perms){
+            return \Polyether\Backend\Backend::currentUserCanSeeLink($perms);
+        }
+        
+    }
+
+
+    class Datatables extends \Yajra\Datatables\Datatables{
         
     }
 

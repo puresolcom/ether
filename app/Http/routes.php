@@ -23,10 +23,8 @@
   |
  */
 
-Route::group(['middleware' => ['web']], function () {
-    Route::get('/', function () {
-        \Option::get('title');
-        \Option::get('title');
-        return view('welcome');
-    });
-});
+Route::group( [ 'middleware' => [ 'web' ] ], function () {
+    Route::get( '/', function () {
+
+    } );
+} );

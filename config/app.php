@@ -13,7 +13,7 @@ return [
       |
      */
 
-    'env'             => env('APP_ENV', 'production'),
+    'env'             => env( 'APP_ENV', 'production' ),
     /*
       |--------------------------------------------------------------------------
       | Application Debug Mode
@@ -24,7 +24,7 @@ return [
       | application. If disabled, a simple generic error page is shown.
       |
      */
-    'debug'           => env('APP_DEBUG', false),
+    'debug'           => env( 'APP_DEBUG', false ),
     /*
       |--------------------------------------------------------------------------
       | Application URL
@@ -79,7 +79,7 @@ return [
       | will not be safe. Please do this before deploying an application!
       |
      */
-    'key'             => env('APP_KEY'),
+    'key'             => env( 'APP_KEY' ),
     'cipher'          => 'AES-256-CBC',
     /*
       |--------------------------------------------------------------------------
@@ -93,7 +93,7 @@ return [
       | Available Settings: "single", "daily", "syslog", "errorlog"
       |
      */
-    'log'             => env('APP_LOG', 'single'),
+    'log'             => env( 'APP_LOG', 'single' ),
     /*
       |--------------------------------------------------------------------------
       | Autoloaded Service Providers
@@ -130,6 +130,7 @@ return [
         Illuminate\Translation\TranslationServiceProvider::class,
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
+
         /*
          * Application Service Providers...
          */
@@ -137,21 +138,44 @@ return [
         App\Providers\AuthServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
+
+
         /*
          * Third Party Providers
          */
+
+        // Collective Html Builder
+        Collective\Html\HtmlServiceProvider::class,
+
+        // Orchestra Packages
+        Orchestra\Asset\AssetServiceProvider::class,
+
+        // watson bootstrap form builder
+        Watson\BootstrapForm\BootstrapFormServiceProvider::class,
+
+        // yajra datatables
+        Yajra\Datatables\DatatablesServiceProvider::class,
+
+
+        /*
+         * Development Only Packages
+         */
+
         Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class,
         Barryvdh\Debugbar\ServiceProvider::class,
+
+
         /*
          * Ether Rroviders
          */
         \Polyether\Option\OptionServiceProvider::class,
         \Polyether\Plugin\PluginServiceProvider::class,
+        \Polyether\User\UserServiceProvider::class,
+        \Polyether\Entrust\EntrustServiceProvider::class,
         \Polyether\Meta\MetaServiceProvider::class,
         \Polyether\Taxonomy\TaxonomyServiceProvider::class,
         \Polyether\Post\PostServiceProvider::class,
         \Polyether\Backend\BackendServiceProvider::class,
-        \Polyether\Entrust\EntrustServiceProvider::class,
     ],
     /*
       |--------------------------------------------------------------------------
@@ -195,13 +219,29 @@ return [
         'URL'       => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View'      => Illuminate\Support\Facades\View::class,
+
+        /**
+         * Third-Party Packages Aliases
+         */
+
+        // watson bootstrap form builder
+        'Form'      => Collective\Html\FormFacade::class,
+        'HTML'      => Collective\Html\HtmlFacade::class,
+        'BootForm'  => Watson\BootstrapForm\Facades\BootstrapForm::class,
+
+        // Orchestra Aliases
+        'Asset'     => Orchestra\Support\Facades\Asset::class,
+
         /**
          * Ether Aliases
          */
         'Option'    => \Polyether\Option\OptionFacade::class,
         'Plugin'    => \Polyether\Plugin\PluginFacade::class,
+        'UserGate'  => \Polyether\User\UserGateFacade::class,
+        'Entrust'   => \Polyether\Entrust\EntrustFacade::class,
         'Meta'      => \Polyether\Meta\MetaFacade::class,
         'Taxonomy'  => \Polyether\Taxonomy\TaxonomyFacade::class,
-        'Post'      => \Polyether\Post\PostFacade::class
+        'Post'      => \Polyether\Post\PostFacade::class,
+        'Backend'   => \Polyether\Backend\BackendFacade::class,
     ],
 ];
