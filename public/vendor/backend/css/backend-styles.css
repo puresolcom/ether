@@ -10,4 +10,18 @@
   .dataTable .datatable-actions > *:last-child {
     margin-right: 0; }
 
+.post_statuses {
+  list-style: none;
+  padding: 0; }
+  .post_statuses li {
+    display: inline-block; }
+    .post_statuses li:after {
+      padding: 0 6px 0 10px;
+      content: '|'; }
+    .post_statuses li:last-child:after {
+      content: '';
+      padding: 0; }
+    .post_statuses li a.current {
+      color: #1c2529; }
+
 /*# sourceMappingURL=backend-styles.css.map */

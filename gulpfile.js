@@ -15,8 +15,8 @@ elixir(function (mix) {
 
 
     //Backend Package
-    mix.copy('vendor/puresolcom/polyether/src/Backend/public/*/*.js', 'public/vendor/backend')
-    //mix.copy('vendor/puresolcom/polyether/src/Backend/resources/assets', 'resources/vendor/backend/assets')
+    mix.copy('vendor/puresolcom/polyether/src/Backend/public', 'public/vendor/backend')
+    mix.copy('vendor/puresolcom/polyether/src/Backend/resources/assets', 'resources/vendor/backend/assets')
 
     this.config.assetsPath = 'resources/vendor/backend/assets';
     //mix.less('backend-bootstrap.less', 'public/vendor/backend/css');

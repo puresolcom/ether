@@ -1,7 +1,7 @@
 <?php
 /**
  * A helper file for Laravel 5, to provide autocomplete information to your IDE
- * Generated for Laravel 5.2.23 on 2016-03-16.
+ * Generated for Laravel 5.2.23 on 2016-03-22.
  *
  * @author Barry vd. Heuvel <barryvdh@gmail.com>
  * @see https://github.com/barryvdh/laravel-ide-helper
@@ -12439,6 +12439,59 @@ namespace {
     }
 
 
+    class Image extends \Intervention\Image\Facades\Image{
+        
+        /**
+         * Overrides configuration settings
+         *
+         * @param array $config
+         * @static 
+         */
+        public static function configure($config = array()){
+            return \Intervention\Image\ImageManager::configure($config);
+        }
+        
+        /**
+         * Initiates an Image instance from different input types
+         *
+         * @param mixed $data
+         * @return \Intervention\Image\Image 
+         * @static 
+         */
+        public static function make($data){
+            return \Intervention\Image\ImageManager::make($data);
+        }
+        
+        /**
+         * Creates an empty image canvas
+         *
+         * @param integer $width
+         * @param integer $height
+         * @param mixed $background
+         * @return \Intervention\Image\Image 
+         * @static 
+         */
+        public static function canvas($width, $height, $background = null){
+            return \Intervention\Image\ImageManager::canvas($width, $height, $background);
+        }
+        
+        /**
+         * Create new cached image and run callback
+         * (requires additional package intervention/imagecache)
+         *
+         * @param \Closure $callback
+         * @param integer $lifetime
+         * @param boolean $returnObj
+         * @return \Intervention\Image\Image 
+         * @static 
+         */
+        public static function cache($callback, $lifetime = null, $returnObj = false){
+            return \Intervention\Image\ImageManager::cache($callback, $lifetime, $returnObj);
+        }
+        
+    }
+
+
     class Option extends \Polyether\Option\OptionFacade{
         
         /**
@@ -12787,6 +12840,15 @@ namespace {
          *
          * @static 
          */
+        public static function find($userId, $columns = array()){
+            return \Polyether\User\UserGate::find($userId, $columns);
+        }
+        
+        /**
+         * 
+         *
+         * @static 
+         */
         public static function create($userArr){
             return \Polyether\User\UserGate::create($userArr);
         }
@@ -12796,8 +12858,26 @@ namespace {
          *
          * @static 
          */
+        public static function delete($userId){
+            return \Polyether\User\UserGate::delete($userId);
+        }
+        
+        /**
+         * 
+         *
+         * @static 
+         */
         public static function onBoot(){
             return \Polyether\User\UserGate::onBoot();
+        }
+        
+        /**
+         * 
+         *
+         * @static 
+         */
+        public static function update($userId, $userArr){
+            return \Polyether\User\UserGate::update($userId, $userArr);
         }
         
     }
@@ -13221,6 +13301,15 @@ namespace {
         /**
          * 
          *
+         * @static 
+         */
+        public static function delete($postId){
+            return \Polyether\Post\Post::delete($postId);
+        }
+        
+        /**
+         * 
+         *
          * @param array $args
          * @return \Polyether\Post\Collection|\Polyether\Support\EtherError 
          * @static 
@@ -13236,6 +13325,20 @@ namespace {
          */
         public static function postStatusUpdated($postId, $newStatus, $oldStatus){
             return \Polyether\Post\Post::postStatusUpdated($postId, $newStatus, $oldStatus);
+        }
+        
+    }
+
+
+    class Meta extends \Polyether\Meta\MetaFacade{
+        
+        /**
+         * 
+         *
+         * @static 
+         */
+        public static function get($metaType, $objectId, $metaKey, $single){
+            return \Polyether\Meta\MetaAPI::get($metaType, $objectId, $metaKey, $single);
         }
         
     }
@@ -13307,8 +13410,8 @@ namespace {
          *
          * @static 
          */
-        public static function currentUserCanSeeLink($perms){
-            return \Polyether\Backend\Backend::currentUserCanSeeLink($perms);
+        public static function renderContentEditor($name, $label = null, $value = null, $options = array()){
+            return \Polyether\Backend\Backend::renderContentEditor($name, $label, $value, $options);
         }
         
         /**

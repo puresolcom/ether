@@ -13,8 +13,7 @@ return [
       |
      */
 
-    'env'             => env( 'APP_ENV', 'production' ),
-    /*
+    'env'             => env('APP_ENV', 'production'), /*
       |--------------------------------------------------------------------------
       | Application Debug Mode
       |--------------------------------------------------------------------------
@@ -24,8 +23,7 @@ return [
       | application. If disabled, a simple generic error page is shown.
       |
      */
-    'debug'           => env( 'APP_DEBUG', false ),
-    /*
+    'debug'           => env('APP_DEBUG', false), /*
       |--------------------------------------------------------------------------
       | Application URL
       |--------------------------------------------------------------------------
@@ -35,8 +33,7 @@ return [
       | your application so that it is used when running Artisan tasks.
       |
      */
-    'url'             => 'http://localhost',
-    /*
+    'url'             => 'http://localhost', /*
       |--------------------------------------------------------------------------
       | Application Timezone
       |--------------------------------------------------------------------------
@@ -46,8 +43,7 @@ return [
       | ahead and set this to a sensible default for you out of the box.
       |
      */
-    'timezone'        => 'UTC',
-    /*
+    'timezone'        => 'UTC', /*
       |--------------------------------------------------------------------------
       | Application Locale Configuration
       |--------------------------------------------------------------------------
@@ -57,8 +53,7 @@ return [
       | to any of the locales which will be supported by the application.
       |
      */
-    'locale'          => 'en',
-    /*
+    'locale'          => 'en', /*
       |--------------------------------------------------------------------------
       | Application Fallback Locale
       |--------------------------------------------------------------------------
@@ -68,8 +63,7 @@ return [
       | the language folders that are provided through your application.
       |
      */
-    'fallback_locale' => 'en',
-    /*
+    'fallback_locale' => 'en', /*
       |--------------------------------------------------------------------------
       | Encryption Key
       |--------------------------------------------------------------------------
@@ -79,9 +73,8 @@ return [
       | will not be safe. Please do this before deploying an application!
       |
      */
-    'key'             => env( 'APP_KEY' ),
-    'cipher'          => 'AES-256-CBC',
-    /*
+    'key'             => env('APP_KEY'),
+    'cipher'          => 'AES-256-CBC', /*
       |--------------------------------------------------------------------------
       | Logging Configuration
       |--------------------------------------------------------------------------
@@ -93,8 +86,7 @@ return [
       | Available Settings: "single", "daily", "syslog", "errorlog"
       |
      */
-    'log'             => env( 'APP_LOG', 'single' ),
-    /*
+    'log'             => env('APP_LOG', 'single'), /*
       |--------------------------------------------------------------------------
       | Autoloaded Service Providers
       |--------------------------------------------------------------------------
@@ -156,6 +148,11 @@ return [
         // yajra datatables
         Yajra\Datatables\DatatablesServiceProvider::class,
 
+        //Unisharp Laravel file manager
+        Unisharp\Laravelfilemanager\LaravelFilemanagerServiceProvider::class,
+
+        // Intervention image manipulation lib
+        Intervention\Image\ImageServiceProvider::class,
 
         /*
          * Development Only Packages
@@ -172,12 +169,11 @@ return [
         \Polyether\Plugin\PluginServiceProvider::class,
         \Polyether\User\UserServiceProvider::class,
         \Polyether\Entrust\EntrustServiceProvider::class,
-        \Polyether\Meta\MetaServiceProvider::class,
         \Polyether\Taxonomy\TaxonomyServiceProvider::class,
         \Polyether\Post\PostServiceProvider::class,
+        \Polyether\Meta\MetaServiceProvider::class,
         \Polyether\Backend\BackendServiceProvider::class,
-    ],
-    /*
+    ], /*
       |--------------------------------------------------------------------------
       | Class Aliases
       |--------------------------------------------------------------------------
@@ -232,6 +228,9 @@ return [
         // Orchestra Aliases
         'Asset'     => Orchestra\Support\Facades\Asset::class,
 
+        // Intervention image manipulation lib
+        'Image'     => Intervention\Image\Facades\Image::class,
+
         /**
          * Ether Aliases
          */
@@ -239,9 +238,9 @@ return [
         'Plugin'    => \Polyether\Plugin\PluginFacade::class,
         'UserGate'  => \Polyether\User\UserGateFacade::class,
         'Entrust'   => \Polyether\Entrust\EntrustFacade::class,
-        'Meta'      => \Polyether\Meta\MetaFacade::class,
         'Taxonomy'  => \Polyether\Taxonomy\TaxonomyFacade::class,
         'Post'      => \Polyether\Post\PostFacade::class,
+        'Meta'      => \Polyether\Meta\MetaFacade::class,
         'Backend'   => \Polyether\Backend\BackendFacade::class,
     ],
 ];
