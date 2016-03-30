@@ -4,12 +4,6 @@
     "keywords": ["ether", "cms", "laravel"],
     "license": "MIT",
     "type": "project",
-    "repositories": [
-        {
-            "type": "path",
-            "url": "../ether-packages/polyether"
-        }
-    ],
     "require": {
         "php": ">=5.5.9",
         "laravel/framework": "5.2.*",
