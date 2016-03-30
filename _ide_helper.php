@@ -1,7 +1,7 @@
 <?php
 /**
  * A helper file for Laravel 5, to provide autocomplete information to your IDE
- * Generated for Laravel 5.2.23 on 2016-03-22.
+ * Generated for Laravel 5.2.27 on 2016-03-30.
  *
  * @author Barry vd. Heuvel <barryvdh@gmail.com>
  * @see https://github.com/barryvdh/laravel-ide-helper
@@ -231,6 +231,16 @@ namespace {
          */
         public static function environmentFile(){
             return \Illuminate\Foundation\Application::environmentFile();
+        }
+        
+        /**
+         * Get the fully qualified path to the environment file.
+         *
+         * @return string 
+         * @static 
+         */
+        public static function environmentFilePath(){
+            return \Illuminate\Foundation\Application::environmentFilePath();
         }
         
         /**
@@ -2182,18 +2192,6 @@ namespace {
         }
         
         /**
-         * Store multiple items in the cache for a given number of minutes.
-         *
-         * @param array $values
-         * @param int $minutes
-         * @return void 
-         * @static 
-         */
-        public static function putMultiple($values, $minutes){
-            \Illuminate\Cache\ArrayStore::putMultiple($values, $minutes);
-        }
-        
-        /**
          * Increment the value of an item in the cache.
          *
          * @param string $key
@@ -2202,11 +2200,11 @@ namespace {
          * @static 
          */
         public static function increment($key, $value = 1){
-            return \Illuminate\Cache\ArrayStore::increment($key, $value);
+            return \Illuminate\Cache\RedisStore::increment($key, $value);
         }
         
         /**
-         * Increment the value of an item in the cache.
+         * Decrement the value of an item in the cache.
          *
          * @param string $key
          * @param mixed $value
@@ -2214,7 +2212,7 @@ namespace {
          * @static 
          */
         public static function decrement($key, $value = 1){
-            return \Illuminate\Cache\ArrayStore::decrement($key, $value);
+            return \Illuminate\Cache\RedisStore::decrement($key, $value);
         }
         
         /**
@@ -2224,7 +2222,38 @@ namespace {
          * @static 
          */
         public static function flush(){
-            \Illuminate\Cache\ArrayStore::flush();
+            \Illuminate\Cache\RedisStore::flush();
+        }
+        
+        /**
+         * Get the Redis connection instance.
+         *
+         * @return \Predis\ClientInterface 
+         * @static 
+         */
+        public static function connection(){
+            return \Illuminate\Cache\RedisStore::connection();
+        }
+        
+        /**
+         * Set the connection name to be used.
+         *
+         * @param string $connection
+         * @return void 
+         * @static 
+         */
+        public static function setConnection($connection){
+            \Illuminate\Cache\RedisStore::setConnection($connection);
+        }
+        
+        /**
+         * Get the Redis database instance.
+         *
+         * @return \Illuminate\Redis\Database 
+         * @static 
+         */
+        public static function getRedis(){
+            return \Illuminate\Cache\RedisStore::getRedis();
         }
         
         /**
@@ -2234,7 +2263,18 @@ namespace {
          * @static 
          */
         public static function getPrefix(){
-            return \Illuminate\Cache\ArrayStore::getPrefix();
+            return \Illuminate\Cache\RedisStore::getPrefix();
+        }
+        
+        /**
+         * Set the cache key prefix.
+         *
+         * @param string $prefix
+         * @return void 
+         * @static 
+         */
+        public static function setPrefix($prefix){
+            \Illuminate\Cache\RedisStore::setPrefix($prefix);
         }
         
     }
@@ -3376,7 +3416,7 @@ namespace {
          *
          * @param mixed $id
          * @param array $columns
-         * @return \Illuminate\Database\Eloquent\Model|\Illuminate\Database\Eloquent\Collection|null 
+         * @return \Illuminate\Database\Eloquent\Model|\Illuminate\Database\Eloquent\Collection|static[]|static|null 
          * @static 
          */
         public static function find($id, $columns = array()){
@@ -3509,6 +3549,19 @@ namespace {
          */
         public static function chunk($count, $callback){
             return \Illuminate\Database\Eloquent\Builder::chunk($count, $callback);
+        }
+        
+        /**
+         * Chunk the results of a query by comparing numeric IDs.
+         *
+         * @param int $count
+         * @param callable $callback
+         * @param string $column
+         * @return bool 
+         * @static 
+         */
+        public static function chunkById($count, $callback, $column = 'id'){
+            return \Illuminate\Database\Eloquent\Builder::chunkById($count, $callback, $column);
         }
         
         /**
@@ -3976,6 +4029,18 @@ namespace {
          */
         public static function rightJoinWhere($table, $one, $operator, $two){
             return \Illuminate\Database\Query\Builder::rightJoinWhere($table, $one, $operator, $two);
+        }
+        
+        /**
+         * Apply the callback's query changes if the given "value" is true.
+         *
+         * @param bool $value
+         * @param \Closure $callback
+         * @return \Illuminate\Database\Query\Builder 
+         * @static 
+         */
+        public static function when($value, $callback){
+            return \Illuminate\Database\Query\Builder::when($value, $callback);
         }
         
         /**
@@ -4494,6 +4559,19 @@ namespace {
         }
         
         /**
+         * Constrain the query to the next "page" of results after a given ID.
+         *
+         * @param int $perPage
+         * @param int $lastId
+         * @param string $column
+         * @return \Illuminate\Database\Query\Builder|static 
+         * @static 
+         */
+        public static function forPageAfterId($perPage = 15, $lastId = 0, $column = 'id'){
+            return \Illuminate\Database\Query\Builder::forPageAfterId($perPage, $lastId, $column);
+        }
+        
+        /**
          * Add a union statement to the query.
          *
          * @param \Illuminate\Database\Query\Builder|\Closure $query
@@ -4689,6 +4767,18 @@ namespace {
          */
         public static function insertGetId($values, $sequence = null){
             return \Illuminate\Database\Query\Builder::insertGetId($values, $sequence);
+        }
+        
+        /**
+         * Insert or update a record matching the attributes, and fill it with values.
+         *
+         * @param array $attributes
+         * @param array $values
+         * @return bool 
+         * @static 
+         */
+        public static function updateOrInsert($attributes, $values = array()){
+            return \Illuminate\Database\Query\Builder::updateOrInsert($attributes, $values);
         }
         
         /**
@@ -5018,12 +5108,24 @@ namespace {
          * Get the contents of a file.
          *
          * @param string $path
+         * @param bool $lock
          * @return string 
          * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
          * @static 
          */
-        public static function get($path){
-            return \Illuminate\Filesystem\Filesystem::get($path);
+        public static function get($path, $lock = false){
+            return \Illuminate\Filesystem\Filesystem::get($path, $lock);
+        }
+        
+        /**
+         * Get contents of a file with shared access.
+         *
+         * @param string $path
+         * @return string 
+         * @static 
+         */
+        public static function sharedGet($path){
+            return \Illuminate\Filesystem\Filesystem::sharedGet($path);
         }
         
         /**
@@ -10794,6 +10896,41 @@ namespace {
         }
         
         /**
+         * Start injecting content into a push section.
+         *
+         * @param string $section
+         * @param string $content
+         * @return void 
+         * @static 
+         */
+        public static function startPush($section, $content = ''){
+            \Illuminate\View\Factory::startPush($section, $content);
+        }
+        
+        /**
+         * Stop injecting content into a push section.
+         *
+         * @return string 
+         * @throws \InvalidArgumentException
+         * @static 
+         */
+        public static function stopPush(){
+            return \Illuminate\View\Factory::stopPush();
+        }
+        
+        /**
+         * Get the string contents of a push section.
+         *
+         * @param string $section
+         * @param string $default
+         * @return string 
+         * @static 
+         */
+        public static function yieldPushContent($section, $default = ''){
+            return \Illuminate\View\Factory::yieldPushContent($section, $default);
+        }
+        
+        /**
          * Flush all of the section contents.
          *
          * @return void 
@@ -12517,15 +12654,6 @@ namespace {
          *
          * @static 
          */
-        public static function isJSON($string){
-            return \Polyether\Option\OptionAPI::isJSON($string);
-        }
-        
-        /**
-         * 
-         *
-         * @static 
-         */
         public static function set($name, $value, $autoload = 'yes'){
             return \Polyether\Option\OptionAPI::set($name, $value, $autoload);
         }
@@ -13337,8 +13465,53 @@ namespace {
          *
          * @static 
          */
-        public static function get($metaType, $objectId, $metaKey, $single){
+        public static function update($metaType, $objectId, $metaKey, $metaValue, $prevValue = ''){
+            return \Polyether\Meta\MetaAPI::update($metaType, $objectId, $metaKey, $metaValue, $prevValue);
+        }
+        
+        /**
+         * 
+         *
+         * @static 
+         */
+        public static function metaRepoExists($metaType){
+            return \Polyether\Meta\MetaAPI::metaRepoExists($metaType);
+        }
+        
+        /**
+         * 
+         *
+         * @static 
+         */
+        public static function get($metaType, $objectId, $metaKey = '', $single = false){
             return \Polyether\Meta\MetaAPI::get($metaType, $objectId, $metaKey, $single);
+        }
+        
+        /**
+         * 
+         *
+         * @static 
+         */
+        public static function add($metaType, $objectId, $metaKey, $metaValue, $unique = false){
+            return \Polyether\Meta\MetaAPI::add($metaType, $objectId, $metaKey, $metaValue, $unique);
+        }
+        
+        /**
+         * 
+         *
+         * @static 
+         */
+        public static function updateMetaCache($metaType, $objectIds){
+            return \Polyether\Meta\MetaAPI::updateMetaCache($metaType, $objectIds);
+        }
+        
+        /**
+         * 
+         *
+         * @static 
+         */
+        public static function delete($metaType, $objectId, $metaKey, $metaValue = '', $deleteAll = false){
+            return \Polyether\Meta\MetaAPI::delete($metaType, $objectId, $metaKey, $metaValue, $deleteAll);
         }
         
     }
