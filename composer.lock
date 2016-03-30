@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "6ee482e2c6bb52c99522f96919b2eca7",
-    "content-hash": "4bf0a371758ee596a5cad0136581f3f1",
+    "hash": "e5edc521f943add5b0fe022d40976cd9",
+    "content-hash": "1a8068e2a6b1ff5de08edc3eb8e82cfe",
     "packages": [
         {
             "name": "bosnadev/repositories",
@@ -524,12 +524,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "ccda783ffa253ed27dd1d4b41dbbc95e76e48a2a"
+                "reference": "afa7c8a6ada0d9801daf6c74bba15bd8fe99e165"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/ccda783ffa253ed27dd1d4b41dbbc95e76e48a2a",
-                "reference": "ccda783ffa253ed27dd1d4b41dbbc95e76e48a2a",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/afa7c8a6ada0d9801daf6c74bba15bd8fe99e165",
+                "reference": "afa7c8a6ada0d9801daf6c74bba15bd8fe99e165",
                 "shasum": ""
             },
             "require": {
@@ -644,7 +644,7 @@
                 "framework",
                 "laravel"
             ],
-            "time": "2016-03-29 13:32:58"
+            "time": "2016-03-30 01:45:54"
         },
         {
             "name": "laravie/html",
@@ -1682,11 +1682,16 @@
         {
             "name": "puresolcom/polyether",
             "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/puresolcom/polyether.git",
+                "reference": "db38346cdb4079cc5f594ffd3fddbe1aca185c0e"
+            },
             "dist": {
-                "type": "path",
-                "url": "../ether-packages/polyether/",
-                "reference": "aaef3a798fd99b17e1c681097d56bc797ae02775",
-                "shasum": null
+                "type": "zip",
+                "url": "https://api.github.com/repos/puresolcom/polyether/zipball/db38346cdb4079cc5f594ffd3fddbe1aca185c0e",
+                "reference": "db38346cdb4079cc5f594ffd3fddbe1aca185c0e",
+                "shasum": ""
             },
             "require": {
                 "bosnadev/repositories": "0.9",
@@ -1708,6 +1713,7 @@
                     "src/Support/formatting.php"
                 ]
             },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -1717,7 +1723,8 @@
                     "email": "m.anwar@pure-sol.com"
                 }
             ],
-            "description": "EtherCMS Polyether"
+            "description": "EtherCMS Polyether",
+            "time": "2016-03-30 06:32:17"
         },
         {
             "name": "swiftmailer/swiftmailer",
@@ -4274,7 +4281,9 @@
     ],
     "aliases": [],
     "minimum-stability": "dev",
-    "stability-flags": [],
+    "stability-flags": {
+        "puresolcom/polyether": 20
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {

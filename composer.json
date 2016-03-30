@@ -7,7 +7,7 @@
     "require": {
         "php": ">=5.5.9",
         "laravel/framework": "5.2.*",
-        "puresolcom/polyether": "*"
+        "puresolcom/polyether": "dev-master"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
