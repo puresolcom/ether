@@ -65,6 +65,16 @@ return [
             'expire'     => 60,
         ],
 
+        'iron' => [
+            'driver'  => 'iron',
+            'host'    => 'mq-aws-eu-west-1-1.iron.io',
+            'token'   => 'sOl6tG3lGiqig55HUCxp',
+            'project' => '56fd5e10bac62c0007574445',
+            'queue'   => 'test-queue',
+            'encrypt' => true,
+            'timeout' => 60,
+        ],
+
     ],
 
     /*

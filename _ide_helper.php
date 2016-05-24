@@ -1,7 +1,7 @@
 <?php
 /**
  * A helper file for Laravel 5, to provide autocomplete information to your IDE
- * Generated for Laravel 5.2.27 on 2016-03-30.
+ * Generated for Laravel 5.2.29 on 2016-04-17.
  *
  * @author Barry vd. Heuvel <barryvdh@gmail.com>
  * @see https://github.com/barryvdh/laravel-ide-helper
@@ -1122,6 +1122,18 @@ namespace {
         public static function terminate($input, $status){
             //Method inherited from \Illuminate\Foundation\Console\Kernel            
             \App\Console\Kernel::terminate($input, $status);
+        }
+        
+        /**
+         * Register the given command with the console application.
+         *
+         * @param \Symfony\Component\Console\Command\Command $command
+         * @return void 
+         * @static 
+         */
+        public static function registerCommand($command){
+            //Method inherited from \Illuminate\Foundation\Console\Kernel            
+            \App\Console\Kernel::registerCommand($command);
         }
         
         /**
@@ -3424,7 +3436,7 @@ namespace {
         }
         
         /**
-         * Find a model by its primary key.
+         * Find multiple models by their primary keys.
          *
          * @param array $ids
          * @param array $columns
@@ -4029,6 +4041,20 @@ namespace {
          */
         public static function rightJoinWhere($table, $one, $operator, $two){
             return \Illuminate\Database\Query\Builder::rightJoinWhere($table, $one, $operator, $two);
+        }
+        
+        /**
+         * Add a "cross join" clause to the query.
+         *
+         * @param string $table
+         * @param string $first
+         * @param string $operator
+         * @param string $second
+         * @return \Illuminate\Database\Query\Builder|static 
+         * @static 
+         */
+        public static function crossJoin($table, $first = null, $operator = null, $second = null){
+            return \Illuminate\Database\Query\Builder::crossJoin($table, $first, $operator, $second);
         }
         
         /**
@@ -7102,6 +7128,17 @@ namespace {
         }
         
         /**
+         * Intersect an array of items with the input data.
+         *
+         * @param array|mixed $keys
+         * @return array 
+         * @static 
+         */
+        public static function intersect($keys){
+            return \Illuminate\Http\Request::intersect($keys);
+        }
+        
+        /**
          * Retrieve a query string item from the request.
          *
          * @param string $key
@@ -7762,7 +7799,7 @@ namespace {
          * Order of precedence: PATH (routing placeholders or custom attributes), GET, BODY
          *
          * @param string $key the key
-         * @param mixed $default the default value
+         * @param mixed $default the default value if the parameter key does not exist
          * @return mixed 
          * @static 
          */
@@ -8214,7 +8251,7 @@ namespace {
          * Here is the process to determine the format:
          * 
          *  * format defined by the user (with setRequestFormat())
-         *  * _format request parameter
+         *  * _format request attribute
          *  * $default
          *
          * @param string $default The default format
@@ -9128,7 +9165,7 @@ namespace {
         }
         
         /**
-         * Alias for the "currentRouteNamed" method.
+         * Alias for the "currentRouteName" method.
          *
          * @param mixed  string
          * @return bool 
@@ -13510,8 +13547,44 @@ namespace {
          *
          * @static 
          */
+        public static function updateByMid($metaType, $metaId, $metaValue, $metaKey = false){
+            return \Polyether\Meta\MetaAPI::updateByMid($metaType, $metaId, $metaValue, $metaKey);
+        }
+        
+        /**
+         * 
+         *
+         * @static 
+         */
+        public static function getByMid($metaType, $metaId){
+            return \Polyether\Meta\MetaAPI::getByMid($metaType, $metaId);
+        }
+        
+        /**
+         * 
+         *
+         * @static 
+         */
         public static function delete($metaType, $objectId, $metaKey, $metaValue = '', $deleteAll = false){
             return \Polyether\Meta\MetaAPI::delete($metaType, $objectId, $metaKey, $metaValue, $deleteAll);
+        }
+        
+        /**
+         * 
+         *
+         * @static 
+         */
+        public static function deleteByMid($metaType, $metaId){
+            return \Polyether\Meta\MetaAPI::deleteByMid($metaType, $metaId);
+        }
+        
+        /**
+         * 
+         *
+         * @static 
+         */
+        public static function exists($metaType, $objectId, $metaKey){
+            return \Polyether\Meta\MetaAPI::exists($metaType, $objectId, $metaKey);
         }
         
     }

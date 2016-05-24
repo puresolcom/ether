@@ -1,0 +1,30 @@
+front:
+  build: .
+  ports:
+    - "80:80"
+    - "443:443"
+    - "9005:9000"
+  links:
+    - mysql:mysql
+    - memcached:memcached
+    - redis:redis
+  volumes:
+    - ./docker_build/nginx/sites/:/etc/nginx/conf.d/
+    - .:/var/www
+    - ../ether-packages:/var/ether-packages
+mysql:
+  image: mysql
+  ports:
+    - "3306:3306"
+  environment:
+    MYSQL_ROOT_PASSWORD: password
+  volumes:
+    - /home/mander/docker_mysql_data:/var/lib/mysql
+memcached:
+  image: memcached
+  ports:
+    - "11211:11211"
+redis:
+  image: redis
+  ports:
+    - "6379:6379"
